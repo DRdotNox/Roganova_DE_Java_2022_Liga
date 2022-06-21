@@ -14,8 +14,19 @@ public class Main {
 
   public static void main(String[] args) {
 
-    List<User> userList = parseCSVforUser(args[0]);
-    parseCSVAndFillUserTasks(userList,args[1]);
+    List<User> userList;
+
+    if (args.length == 1 || args.length == 0) {
+      System.out.println("Вы не указали файл(ы) для считывания");
+      System.out.println("Будут использованы тестовые csv\n");
+      userList = parseCSVforUser("homework-2/users.csv");
+      parseCSVAndFillUserTasks(userList,"homework-2/tasks.csv");
+    }
+    else {
+      userList = parseCSVforUser(args[0]);
+      parseCSVAndFillUserTasks(userList,args[1]);
+    }
+
 
     Scanner in = new Scanner(System.in, StandardCharsets.UTF_8);
 
@@ -35,7 +46,7 @@ public class Main {
       boolean innerState = true;
       while (innerState) {
         System.out.println("Menu");
-        System.out.println("1 Все задания 2 NEW 3 IN_PROGRESS 4 DONE");
+        System.out.println("1 Все задания   2 NEW   3 IN_PROGRESS   4 DONE");
         System.out.println("5 Поменять статус задачи");
         System.out.println("6 Вернуться к списку пользователей");
         System.out.println("7 Выход");
@@ -140,7 +151,8 @@ public class Main {
 
   public static void showUsersTasks(User user, Status status){
     System.out.println("Задания пользователя " + user.getName());
-    System.out.println("---------------------------------------------------------------------------------------------------------");
+    System.out.println("---------------------------------------------------------------------------"
+        + "------------------------------");
     System.out.format("%10s%20s%30s%20s%10s\n", "id", "Заголовок", "Описание","Дедлайн","Статус");
     List<Task> taskList;
 
@@ -152,12 +164,13 @@ public class Main {
     }
 
     if (taskList.isEmpty()) {
-      System.out.println("Нет задач");
+      System.out.println("Нет задач\n");
       return;
     }
     taskList.forEach(task -> System.out.format("%10d%20s%30s%20s%10s\n", task.getId(),
         task.getHeader(), task.getDescription(),task.getData().toString(),task.getStatus().toString()));
-    System.out.println("---------------------------------------------------------------------------------------------------------");
+    System.out.println("---------------------------------------------------------------------------"
+        + "------------------------------");
 
   }
 
