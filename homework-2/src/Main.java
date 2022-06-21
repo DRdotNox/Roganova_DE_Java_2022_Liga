@@ -139,6 +139,7 @@ public class Main {
 
   public static void showUsersTasks(User user, Status status){
     System.out.println("Задания пользователя " + user.getName());
+    System.out.println("---------------------------------------------------------------------------------------------------------");
     System.out.format("%10s%20s%30s%20s%10s\n", "id", "Заголовок", "Описание","Дедлайн","Статус");
     List<Task> taskList;
 
@@ -155,6 +156,8 @@ public class Main {
     }
     taskList.forEach(task -> System.out.format("%10d%20s%30s%20s%10s\n", task.getId(),
         task.getHeader(), task.getDescription(),task.getData().toString(),task.getStatus().toString()));
+    System.out.println("---------------------------------------------------------------------------------------------------------");
+
   }
 
   public static void changeStatusOfTheTask(User user, int taskId, Status status){
