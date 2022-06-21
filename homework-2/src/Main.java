@@ -20,9 +20,9 @@ public class Main {
     Scanner in = new Scanner(System.in, StandardCharsets.UTF_8);
 
     boolean state = true;
-    boolean innerState = true;
 
     while (state) {
+
       System.out.println("Все пользователи:");
       userList.forEach(user -> System.out.println(user.getId() + "." + user.getName()));
 
@@ -32,6 +32,7 @@ public class Main {
       User user = User.findUserById(userList,id);
       showUsersTasks(user,null);
 
+      boolean innerState = true;
       while (innerState) {
         System.out.println("Menu");
         System.out.println("1 Все задания 2 NEW 3 IN_PROGRESS 4 DONE");
@@ -162,7 +163,12 @@ public class Main {
 
   public static void changeStatusOfTheTask(User user, int taskId, Status status){
     List<Task> taskList = user.getTasks();
-    taskList.get(taskId).setStatus(status);
+    Task task = taskList.stream().filter(t -> t.getId() == taskId).findFirst().orElse(null);
+    if (task == null) {
+      System.out.println("\n Такого задания нет в списке!\n");
+      return;
+    }
+    task.setStatus(status);
   }
 
 }
