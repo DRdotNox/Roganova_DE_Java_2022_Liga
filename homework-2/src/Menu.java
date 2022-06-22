@@ -8,22 +8,23 @@ import java.util.Scanner;
 
 public class Menu {
 
-  private List<String> mainOptions = new ArrayList<>(
+  private final List<String> mainOptions = new ArrayList<>(
       List.of("1 Все задания", "2 NEW ", "3 IN_PROGRESS", "4 DONE", "5 Поменять статус задачи",
           "6 Вернуться к списку пользователей", "7 Выход"));
-  private List<String> subOptions = new ArrayList<>(List.of("1 NEW ", "2 IN_PROGRESS", "3 DONE", "4 Вернуться"));
+  private final List<String> subOptions = new ArrayList<>(
+      List.of("1 NEW ", "2 IN_PROGRESS", "3 DONE", "4 Вернуться"));
 
   Map <Integer, Status> statusMap;
 
   public void showMenu(List<User> userList){
     statusMap = createStatusMap();
 
-    boolean state = true;
     Scanner in = new Scanner(System.in, StandardCharsets.UTF_8);
 
+    boolean state = true;
     while (state) {
-
       Service.showAllUsers(userList);
+
       System.out.print("Введите id пользователя, чтобы просмотреть его задания: ");
       int id = Integer.parseInt(in.nextLine());
       User user = Service.findUserById(userList,id);

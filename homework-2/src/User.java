@@ -4,8 +4,8 @@ import java.util.stream.Collectors;
 
 public class User {
 
-  private int id;
-  private String name;
+  private final int id;
+  private final String name;
   List<Task> tasks;
 
   public User(int id, String name) {
