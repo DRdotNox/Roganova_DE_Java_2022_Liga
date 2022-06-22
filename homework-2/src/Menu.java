@@ -30,7 +30,6 @@ public class Menu {
     while (state) {
       User user = null;
         while (user == null){
-
           Service.showAllUsers(userList);
           System.out.print("Введите id пользователя, чтобы просмотреть его задания: ");
           String input = in.nextLine();
@@ -40,7 +39,6 @@ public class Menu {
         }
 
       Service.showUsersTasks(user,null);
-
       state = showTaskMenu(in, user);
     }
   }
@@ -49,9 +47,15 @@ public class Menu {
     System.out.println("Введите id задачи:");
     String input = in.nextLine();
     int taskId = checkInput(input);
-    if (taskId < 0) return;
+    if (taskId < 0){
+      Service.showUsersTasks(user, null);
+      return;
+    }
     Task task = Service.findTaskById(user, taskId);
-    if (task == null) return;
+    if (task == null){
+      Service.showUsersTasks(user, null);
+      return;
+    }
 
     System.out.println("Какой статус присвоить задаче?");
     subOptions.forEach(System.out::println);
@@ -62,7 +66,6 @@ public class Menu {
       Service.showUsersTasks(user, null);
       return;
     }
-
     if (status>= 1 && status <=4){
       if (status !=4) {
         Service.changeStatusOfTheTask(task, statusMap.get(status+1));
