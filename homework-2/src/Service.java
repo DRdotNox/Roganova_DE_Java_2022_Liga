@@ -15,6 +15,7 @@ public class Service {
     System.out.println("---------------------------------------------------------------------------"
         + "------------------------------");
     System.out.format("%10s%20s%30s%20s%20s\n", "id", "Заголовок", "Описание", "Дедлайн", "Статус");
+
     List<Task> taskList;
     if (status == null) {
       taskList = user.getTasks();
@@ -22,11 +23,11 @@ public class Service {
       taskList = user.getTasks().stream().filter(task -> task.getStatus().equals(status)).collect(
           Collectors.toList());
     }
-
     if (taskList.isEmpty()) {
       System.out.println("Нет задач\n");
       return;
     }
+
     taskList.forEach(task -> System.out.format("%10d%20s%30s%20s%20s\n", task.getId(),
         task.getHeader(), task.getDescription(), task.getData().toString(),
         task.getStatus().toString()));

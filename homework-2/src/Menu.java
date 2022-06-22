@@ -70,10 +70,10 @@ public class Menu {
       Service.showUsersTasks(user, null);
     }
   }
+
   public Boolean showTaskMenu(Scanner in, User user){
     boolean innerState = true;
     while (innerState) {
-      Service.showUsersTasks(user, null);
       mainOptions.forEach(System.out::println);
       String input = in.nextLine();
       int option = checkInput(input);
