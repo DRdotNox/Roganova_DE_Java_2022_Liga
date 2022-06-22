@@ -33,12 +33,8 @@ public class Menu {
 
           Service.showAllUsers(userList);
           System.out.print("Введите id пользователя, чтобы просмотреть его задания: ");
-          int id = 0;
-          try {
-            id = Integer.parseInt(in.nextLine());
-          } catch (NumberFormatException e) {
-            id=-1;
-          }
+          String input = in.nextLine();
+          int id = checkInput(input);
           user = Service.findUserById(userList,id);
           if(user == null)System.out.println("Нет пользователя с таким id!\nПопробуйте еще раз");
         }
@@ -49,40 +45,27 @@ public class Menu {
     }
   }
 
-  public Map <Integer, Status> createStatusMap(){
-    Map <Integer, Status> statusMap = new HashMap<>();
-    statusMap.put(1, null);
-    statusMap.put(2, Status.NEW);
-    statusMap.put(3, Status.IN_PROGRESS);
-    statusMap.put(4, Status.DONE);
-    return statusMap;
-  }
-
   public void showChangeStatusMenu(Scanner in, User user){
     System.out.println("Введите id задачи:");
-    int taskId;
-    try {
-      taskId = Integer.parseInt(in.nextLine());
-    } catch (NumberFormatException e) {
-      System.out.println("Неверный формат id\nПопробуйте еще раз");
-      Service.showUsersTasks(user,null);
-      taskId = -1;
-    }
+    String input = in.nextLine();
+    int taskId = checkInput(input);
     if (taskId < 0) return;
+    Task task = Service.findTaskById(user, taskId);
+    if (task == null) return;
 
     System.out.println("Какой статус присвоить задаче?");
     subOptions.forEach(System.out::println);
 
-    int status = 0;
-    try {
-      status = Integer.parseInt(in.nextLine());
-    } catch (NumberFormatException e) {
+    input = in.nextLine();
+    int status = checkInput(input);
+    if(status<0) {
+      Service.showUsersTasks(user, null);
       return;
     }
 
     if (status>= 1 && status <=4){
       if (status !=4) {
-        Service.changeStatusOfTheTask(user, taskId, statusMap.get(status+1));
+        Service.changeStatusOfTheTask(task, statusMap.get(status+1));
       }
       Service.showUsersTasks(user, null);
     }
@@ -90,14 +73,11 @@ public class Menu {
   public Boolean showTaskMenu(Scanner in, User user){
     boolean innerState = true;
     while (innerState) {
+      Service.showUsersTasks(user, null);
       mainOptions.forEach(System.out::println);
-
-      int option = 0;
-      try {
-        option = Integer.parseInt(in.nextLine());
-      } catch (NumberFormatException e) {
-        return false;
-      }
+      String input = in.nextLine();
+      int option = checkInput(input);
+      if(option<0) return false;
 
       if (option >= 1 && option <= 4) {
         Service.showUsersTasks(user, statusMap.get(option));
@@ -110,5 +90,25 @@ public class Menu {
       }
     }
     return true;
+  }
+
+  public Map <Integer, Status> createStatusMap(){
+    Map <Integer, Status> statusMap = new HashMap<>();
+    statusMap.put(1, null);
+    statusMap.put(2, Status.NEW);
+    statusMap.put(3, Status.IN_PROGRESS);
+    statusMap.put(4, Status.DONE);
+    return statusMap;
+  }
+
+  public int checkInput(String input) {
+    int option;
+    try {
+      option = Integer.parseInt(input);
+    } catch (NumberFormatException e) {
+      System.out.println("Неверный формат ввода");
+      return -1;
+    }
+    return option;
   }
 }

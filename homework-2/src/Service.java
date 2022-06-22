@@ -34,18 +34,21 @@ public class Service {
         + "------------------------------");
   }
 
-  public static void changeStatusOfTheTask(User user, int taskId, Status status){
-    List<Task> taskList = user.getTasks();
-    Task task = taskList.stream().filter(t -> t.getId() == taskId).findFirst().orElse(null);
-    if (task == null) {
-      System.out.println("\n Такого задания нет в списке!\n");
-      return;
-    }
+  public static void changeStatusOfTheTask(Task task, Status status){
     task.setStatus(status);
   }
 
   public static void showAllUsers(List<User> userList){
     System.out.println("Все пользователи:");
     userList.forEach(user -> System.out.println(user.getId() + "." + user.getName()));
+  }
+
+  public static Task findTaskById(User user, int taskId) {
+    List<Task> taskList = user.getTasks();
+    Task task = taskList.stream().filter(t -> t.getId() == taskId).findFirst().orElse(null);
+    if (task == null) {
+      System.out.println("\n Такого задания нет в списке!\n");
+    }
+    return task;
   }
 }
