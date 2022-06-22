@@ -28,11 +28,21 @@ public class Menu {
 
     boolean state = true;
     while (state) {
-      Service.showAllUsers(userList);
+      User user = null;
+        while (user == null){
 
-      System.out.print("Введите id пользователя, чтобы просмотреть его задания: ");
-      int id = Integer.parseInt(in.nextLine());
-      User user = Service.findUserById(userList,id);
+          Service.showAllUsers(userList);
+          System.out.print("Введите id пользователя, чтобы просмотреть его задания: ");
+          int id = 0;
+          try {
+            id = Integer.parseInt(in.nextLine());
+          } catch (NumberFormatException e) {
+            id=-1;
+          }
+          user = Service.findUserById(userList,id);
+          System.out.println("Нет пользователя с таким id!\nПопробуйте еще раз");
+        }
+
       Service.showUsersTasks(user,null);
 
       state = showTaskMenu(in, user);
@@ -55,7 +65,12 @@ public class Menu {
     System.out.println("Какой статус присвоить задаче?");
     subOptions.forEach(System.out::println);
 
-    int status = Integer.parseInt(in.nextLine());
+    int status = 0;
+    try {
+      status = Integer.parseInt(in.nextLine());
+    } catch (NumberFormatException e) {
+      return;
+    }
 
     if (status>= 1 && status <=4){
       if (status !=4) Service.changeStatusOfTheTask(user, taskId, statusMap.get(status+1));
@@ -67,7 +82,13 @@ public class Menu {
     while (innerState) {
       mainOptions.forEach(System.out::println);
 
-      int option = Integer.parseInt(in.nextLine());
+      int option = 0;
+      try {
+        option = Integer.parseInt(in.nextLine());
+      } catch (NumberFormatException e) {
+        return false;
+      }
+
       if (option >= 1 && option <= 4) {
         Service.showUsersTasks(user, statusMap.get(option));
       } else if (option == 5) {
