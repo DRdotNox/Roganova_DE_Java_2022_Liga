@@ -9,8 +9,8 @@ import java.util.Scanner;
 public class Menu {
 
   private final List<String> mainOptions = new ArrayList<>(
-      List.of("1 Все задания", "2 NEW ", "3 IN_PROGRESS", "4 DONE", "5 Поменять статус задачи",
-          "6 Вернуться к списку пользователей", "7 Выход"));
+      List.of("1 Все задания", "2 Только NEW ", "3 Только IN_PROGRESS", "4 Только DONE",
+          "5 Поменять статус задачи", "6 Вернуться к списку пользователей", "7 Выход"));
   private final List<String> subOptions = new ArrayList<>(
       List.of("1 NEW ", "2 IN_PROGRESS", "3 DONE", "4 Вернуться"));
 
