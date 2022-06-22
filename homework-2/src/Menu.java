@@ -40,7 +40,7 @@ public class Menu {
             id=-1;
           }
           user = Service.findUserById(userList,id);
-          System.out.println("Нет пользователя с таким id!\nПопробуйте еще раз");
+          if(user == null)System.out.println("Нет пользователя с таким id!\nПопробуйте еще раз");
         }
 
       Service.showUsersTasks(user,null);
