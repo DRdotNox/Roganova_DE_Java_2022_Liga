@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class User {
 
@@ -34,12 +35,4 @@ public class User {
     this.tasks.add(task);
   }
 
-  public static User findUserById(List<User> userList, int id) {
-    return userList.stream()
-        .filter(user -> user.getId() == id)
-        .findFirst()
-        .orElse(null);
   }
-
-
-}
