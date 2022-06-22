@@ -60,7 +60,15 @@ public class Menu {
 
   public void showChangeStatusMenu(Scanner in, User user){
     System.out.println("Введите id задачи:");
-    int taskId = Integer.parseInt(in.nextLine());
+    int taskId;
+    try {
+      taskId = Integer.parseInt(in.nextLine());
+    } catch (NumberFormatException e) {
+      System.out.println("Неверный формат id\nПопробуйте еще раз");
+      Service.showUsersTasks(user,null);
+      taskId = -1;
+    }
+    if (taskId < 0) return;
 
     System.out.println("Какой статус присвоить задаче?");
     subOptions.forEach(System.out::println);
@@ -73,7 +81,9 @@ public class Menu {
     }
 
     if (status>= 1 && status <=4){
-      if (status !=4) Service.changeStatusOfTheTask(user, taskId, statusMap.get(status+1));
+      if (status !=4) {
+        Service.changeStatusOfTheTask(user, taskId, statusMap.get(status+1));
+      }
       Service.showUsersTasks(user, null);
     }
   }
