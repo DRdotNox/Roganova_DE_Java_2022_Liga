@@ -48,8 +48,8 @@ public class Parser {
       while ((line = br.readLine()) != null) {
         String[] values = line.split(",");
         User user = Service.findUserById(userList,Integer.parseInt(values[3].trim()));
-        user.addTask(new Task (Integer.parseInt(values[0].trim()), values[1], values[2],
-            Integer.parseInt(values[3].trim()), LocalDate.parse(values[4], formatter)));
+        user.addTask(new Task (Integer.parseInt(values[0].trim()), values[1].trim(), values[2].trim(),
+            Integer.parseInt(values[3].trim()), LocalDate.parse(values[4].trim(), formatter)));
 
       }
     } catch (IOException e) {

@@ -13,8 +13,8 @@ public class Service {
   public static void showUsersTasks(User user, Status status) {
     System.out.println("Задания пользователя " + user.getName());
     System.out.println("---------------------------------------------------------------------------"
-        + "------------------------------");
-    System.out.format("%10s%20s%30s%20s%20s\n", "id", "Заголовок", "Описание", "Дедлайн", "Статус");
+        + "------------------------------------------------------");
+    System.out.format("%-10s%-20s%-70s%-20s%-20s\n", "id", "Заголовок", "Описание", "Дедлайн", "Статус");
 
     List<Task> taskList;
     if (status == null) {
@@ -28,11 +28,11 @@ public class Service {
       return;
     }
 
-    taskList.forEach(task -> System.out.format("%10d%20s%30s%20s%20s\n", task.getId(),
+    taskList.forEach(task -> System.out.format("%-10d%-20s%-70s%-20s%-20s\n", task.getId(),
         task.getHeader(), task.getDescription(), task.getData().toString(),
         task.getStatus().toString()));
     System.out.println("---------------------------------------------------------------------------"
-        + "------------------------------");
+        + "------------------------------------------------------");
   }
 
   public static void changeStatusOfTheTask(Task task, Status status){
