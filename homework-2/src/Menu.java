@@ -101,12 +101,12 @@ public class Menu {
             int taskId = Validation.checkInput(input);
             if (taskId < 0) {
               Service.showUsersTasks(user, null);
-              showTaskMenu(in, user);
+              break;
             }
             Task task = Service.findTaskById(user, taskId);
             if (task == null) {
               Service.showUsersTasks(user, null);
-              showTaskMenu(in, user);
+              break;
             }
             user.getTasks().remove(task);
           }
