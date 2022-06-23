@@ -100,10 +100,12 @@ public class Menu {
             input = in.nextLine();
             int taskId = Validation.checkInput(input);
             if (taskId < 0) {
+              Service.showUsersTasks(user, null);
               showTaskMenu(in, user);
             }
             Task task = Service.findTaskById(user, taskId);
             if (task == null) {
+              Service.showUsersTasks(user, null);
               showTaskMenu(in, user);
             }
             user.getTasks().remove(task);
