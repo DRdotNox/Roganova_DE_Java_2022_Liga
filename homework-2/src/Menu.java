@@ -114,7 +114,9 @@ public class Menu {
         }
         case 6 -> showChangeStatusMenu(in, user);
         case 7 -> innerState = false;
-        default -> showTaskMenu(in, user);
+        default -> {
+          return false;
+        }
       }
 
     }
