@@ -1,3 +1,4 @@
+import enums.FileType;
 import java.util.List;
 
 public class Main {
@@ -5,20 +6,25 @@ public class Main {
   public static void main(String[] args) {
 
     List<User> userList;
+    List<Task> taskList;
+
+    FileService fileService = new FileService();
 
     if (args.length == 1 || args.length == 0) {
       System.out.println("Вы не указали файл(ы) для считывания");
       System.out.println("Будут использованы тестовые csv\n");
 
-      userList = Parser.parseCSVforUser("homework-2/users.csv");
-      Parser.parseCSVAndFillUserTasks(userList,"homework-2/tasks.csv");
+      userList = fileService.read("homework-2/users.csv", FileType.USERS);
+      taskList = fileService.read("homework-2/tasks.csv", FileType.TASKS);
+      DataService.addTasksToUsers(userList,taskList);
     }
     else {
-      userList = Parser.parseCSVforUser(args[0]);
-      Parser.parseCSVAndFillUserTasks(userList,args[1]);
+      userList = fileService.read(args[0], FileType.USERS);
+      taskList = fileService.read(args[1], FileType.TASKS);
+      DataService.addTasksToUsers(userList,taskList);
     }
 
-    Menu menu = new Menu();
-    menu.showMenu(userList);
+    Menu menu = new Menu(userList,taskList);
+    menu.showMenu();
   }
 }

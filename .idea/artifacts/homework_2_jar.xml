@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="homework-2:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/homework_2_jar</output-path>
+    <root id="archive" name="homework-2.jar">
+      <element id="module-output" name="homework-2" />
+      <element id="directory" name="homework-2">
+        <element id="file-copy" path="$PROJECT_DIR$/homework-2/users.csv" />
+        <element id="file-copy" path="$PROJECT_DIR$/homework-2/tasks.csv" />
+      </element>
+    </root>
+  </artifact>
+</component>

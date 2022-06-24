@@ -35,4 +35,17 @@ public class User {
     this.tasks.add(task);
   }
 
+  public void showTask(int taskId) {
+    Task task = this.getTasks().stream().filter(t -> t.getId() == taskId).findFirst().orElse(null);
+    System.out.println("Выбранная задача ");
+    System.out.println("---------------------------------------------------------------------------"
+        + "------------------------------------------------------");
+    System.out.format("%-10s%-20s%-70s%-20s%-20s\n", "id", "Заголовок", "Описание", "Дедлайн",
+        "Статус");
+    System.out.format("%-10d%-20s%-70s%-20s%-20s\n", task.getId(),
+        task.getHeader(), task.getDescription(), task.getDate().toString(),
+        task.getStatus().toString());
+    System.out.println("---------------------------------------------------------------------------"
+        + "------------------------------------------------------");
+  }
   }

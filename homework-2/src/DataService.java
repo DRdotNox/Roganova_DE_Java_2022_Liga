@@ -1,8 +1,11 @@
+import enums.Status;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
-public class Service {
+public class DataService {
 
   public static User findUserById(List<User> userList, int id) {
     return userList.stream()
@@ -30,7 +33,7 @@ public class Service {
     }
 
     taskList.forEach(task -> System.out.format("%-10d%-20s%-70s%-20s%-20s\n", task.getId(),
-        task.getHeader(), task.getDescription(), task.getData().toString(),
+        task.getHeader(), task.getDescription(), task.getDate().toString(),
         task.getStatus().toString()));
     System.out.println("---------------------------------------------------------------------------"
         + "------------------------------------------------------");
@@ -53,4 +56,44 @@ public class Service {
     }
     return task;
   }
+
+  public static void addTasksToUsers(List<User> userList, List<Task> taskList){
+    taskList.forEach(task -> {
+      User user = DataService.findUserById(userList,task.getUserId());
+      user.addTask(task);
+    });
+  }
+
+  public static void addNewTask(User user, List<Task> taskList){
+    Scanner in = new Scanner(System.in);
+    int lastId = taskList.size();
+
+    System.out.println("Введите заголовок:");
+    String header = in.nextLine();
+
+    System.out.println("Введите описание:");
+    String description = in.nextLine();
+
+    System.out.println("Введите дату дедлайна (dd.MM.yyyy):");
+    String stringDate = in.nextLine();
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    LocalDate date = LocalDate.parse(stringDate, formatter);
+
+    Task task = new Task(lastId+1, header, description, user.getId(), date);
+
+    user.addTask(task);
+    taskList.add(task);
+  }
+
+  public static void deleteTask(List<Task> taskList, User user, int taskId){
+    Task task = DataService.findTaskById(user, taskId);
+    if (task == null) {
+      DataService.showUsersTasks(user, null);
+      System.out.println("Такого задания нет");
+      return;
+    }
+    user.getTasks().remove(task);
+    taskList.remove(task);
+  }
+
 }
