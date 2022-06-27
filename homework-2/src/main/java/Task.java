@@ -1,5 +1,8 @@
 import enums.StatusOfTask;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Task {
 
@@ -73,7 +76,9 @@ public class Task {
 
   @Override
   public String toString() {
-    return getId() + "," + getHeader() + "," + getDescription() + "," + getUserId()+ "," + getDate() + "," + getStatus();
+    String formattedDate = this.getDate().format(DateTimeFormatter
+        .ofPattern("dd.MM.yyyy"));
+    return getId() + "," + getHeader() + "," + getDescription() + "," + getUserId()+ "," + formattedDate + "," + getStatus();
   }
 }
 

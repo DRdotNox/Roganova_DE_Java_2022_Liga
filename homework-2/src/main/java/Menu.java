@@ -49,14 +49,29 @@ public class Menu {
   public void showMenu() throws IOException, CsvException {
 
     Scanner in = new Scanner(System.in, StandardCharsets.UTF_8);
+    boolean isTasksExist = true;
 
     boolean state = true;
     while (state) {
+      DataService.showAllUsers(userList);
+      System.out.println("\n");
+      System.out.println("1 выбрать пользователя");
+      if (isTasksExist) {
+        System.out.println("2 очистить таск-трекер");
+      }
+      String input = in.nextLine();
+      int option = Validation.checkInput(input);
+      if(option == 2) {
+        DataService.deleteAllTasks(taskList);
+        fileService.clean(taskFile);
+        System.out.println("Документ был полностью очищен");
+        isTasksExist = false;
+      }
+      else if(option ==1 || !isTasksExist) {
       User user = null;
         while (user == null){
-          DataService.showAllUsers(userList);
           System.out.print("Введите id пользователя, чтобы просмотреть его задания: ");
-          String input = in.nextLine();
+          input = in.nextLine();
           int id = Validation.checkInput(input);
           user = DataService.findUserById(userList,id);
           if(user == null)System.out.println("Нет пользователя с таким id!\nПопробуйте еще раз");
@@ -64,7 +79,7 @@ public class Menu {
 
       DataService.showUsersTasks(user,null);
 
-      state = showALLTaskMenu(in, user);
+      state = showALLTaskMenu(in, user);}
     }
   }
 
@@ -119,14 +134,10 @@ public class Menu {
         }
         case 6 -> {
           Task task = DataService.addNewTask(user, taskList);
-//          fileService.addToFile(taskFile, task);
+          fileService.addToFile(taskFile, task);
           DataService.showUsersTasks(user, null);
         }
         case 7 -> innerState = false;
-        case 8 -> {
-          DataService.deleteAllTasks(taskList);
-          fileService.clean(taskFile);
-        }
         default -> {
           return false;
         }

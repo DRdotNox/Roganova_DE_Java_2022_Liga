@@ -1,3 +1,4 @@
+
 public class Validation {
   public static int checkInput(String input) {
     int option;
