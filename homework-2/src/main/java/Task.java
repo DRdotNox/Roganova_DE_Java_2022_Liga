@@ -1,4 +1,4 @@
-import enums.Status;
+import enums.StatusOfTask;
 import java.time.LocalDate;
 
 public class Task {
@@ -8,7 +8,7 @@ public class Task {
   private String header;
   private String description;
   private LocalDate date;
-  private Status status;
+  private StatusOfTask status;
 
   public Task() {
   }
@@ -19,7 +19,16 @@ public class Task {
     this.description = description;
     this.userId = userId;
     this.date = date;
-    this.status = Status.NEW;
+    this.status = StatusOfTask.NEW;
+  }
+
+  public Task(int id, String header, String description, int userId, LocalDate date, String status) {
+    this.id = id;
+    this.header = header;
+    this.description = description;
+    this.userId = userId;
+    this.date = date;
+    this.status = StatusOfTask.valueOf(status);
   }
 
   public int getId() {
@@ -38,11 +47,11 @@ public class Task {
     return date;
   }
 
-  public Status getStatus() {
+  public StatusOfTask getStatus() {
     return status;
   }
 
-  public void setStatus(Status status) {
+  public void setStatus(StatusOfTask status) {
     this.status = status;
   }
 
@@ -64,7 +73,7 @@ public class Task {
 
   @Override
   public String toString() {
-    return getId() + " " + getHeader() + " " + getDescription() + " " + getDate() + " " + getStatus();
+    return getId() + "," + getHeader() + "," + getDescription() + "," + getUserId()+ "," + getDate() + "," + getStatus();
   }
 }
 

@@ -28,9 +28,11 @@ public class Parser {
     try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
       String line;
       while ((line = br.readLine()) != null) {
-        String[] values = line.split(",");
+        String[] values = line.replaceAll("\"","").split(",");
+        String status = "NEW";
+        if (values.length == 6)  status = values [5];
         taskList.add(new Task (Integer.parseInt(values[0].trim()), values[1].trim(), values[2].trim(),
-            Integer.parseInt(values[3].trim()), LocalDate.parse(values[4].trim(), formatter)));
+            Integer.parseInt(values[3].trim()), LocalDate.parse(values[4].trim(), formatter), status));
       }
     } catch (IOException e) {
       e.printStackTrace();
@@ -42,7 +44,6 @@ public class Parser {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     List<Task> taskList = new ArrayList<>();
-
     try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
       String line;
       while ((line = br.readLine()) != null) {

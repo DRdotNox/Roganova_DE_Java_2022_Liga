@@ -1,4 +1,4 @@
-import enums.Status;
+import enums.StatusOfTask;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -14,7 +14,7 @@ public class DataService {
         .orElse(null);
   }
 
-  public static void showUsersTasks(User user, Status status) {
+  public static void showUsersTasks(User user, StatusOfTask status) {
     System.out.println("Задания пользователя " + user.getName());
     System.out.println("---------------------------------------------------------------------------"
         + "------------------------------------------------------");
@@ -39,7 +39,7 @@ public class DataService {
         + "------------------------------------------------------");
   }
 
-  public static void changeStatusOfTheTask(Task task, Status status){
+  public static void changeStatusOfTheTask(Task task, StatusOfTask status){
     task.setStatus(status);
   }
 
@@ -64,7 +64,7 @@ public class DataService {
     });
   }
 
-  public static void addNewTask(User user, List<Task> taskList){
+  public static Task addNewTask(User user, List<Task> taskList){
     Scanner in = new Scanner(System.in);
     int lastId = taskList.size();
 
@@ -83,6 +83,7 @@ public class DataService {
 
     user.addTask(task);
     taskList.add(task);
+    return task;
   }
 
   public static void deleteTask(List<Task> taskList, User user, int taskId){
@@ -96,4 +97,7 @@ public class DataService {
     taskList.remove(task);
   }
 
+  public static void deleteAllTasks(List<Task> taskList){
+    taskList.clear();
+  }
 }

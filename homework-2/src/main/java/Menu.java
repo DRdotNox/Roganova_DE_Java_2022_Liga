@@ -1,4 +1,6 @@
-import enums.Status;
+import com.opencsv.exceptions.CsvException;
+import enums.StatusOfTask;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -19,11 +21,17 @@ public class Menu {
   List<User> userList;
   List<Task> taskList;
 
-  Map <Integer, Status> statusMap;
+  String taskFile;
 
-  public Menu(List<User> userList, List<Task> taskList) {
+  FileService fileService = new FileService();
+
+  Map <Integer, StatusOfTask> statusMap;
+
+  public Menu(List<User> userList, List<Task> taskList, String taskFile) {
     this.userList = userList;
     this.taskList = taskList;
+
+    this.taskFile = taskFile;
 
     this.mainOptions = new ArrayList<>(
         List.of("1 Все задания 2 Только NEW  3 Только IN_PROGRESS 4 Только DONE","5 Выбрать задачу","6 Добавить задачу",
@@ -38,7 +46,7 @@ public class Menu {
 
   }
 
-  public void showMenu(){
+  public void showMenu() throws IOException, CsvException {
 
     Scanner in = new Scanner(System.in, StandardCharsets.UTF_8);
 
@@ -60,7 +68,8 @@ public class Menu {
     }
   }
 
-  public void showChangeStatusMenu(Scanner in, User user, int taskId){
+  public void showChangeStatusMenu(Scanner in, User user, int taskId)
+      throws IOException, CsvException {
     Task task = DataService.findTaskById(user, taskId);
     if (task == null){
       DataService.showUsersTasks(user, null);
@@ -78,13 +87,14 @@ public class Menu {
     }
     if (status>= 1 && status <=4){
       if (status !=4) {
+        fileService.updateFile(taskFile, task,task.getStatus().toString(), statusMap.get(status+1).toString());
         DataService.changeStatusOfTheTask(task, statusMap.get(status+1));
       }
       DataService.showUsersTasks(user, null);
     }
   }
 
-  public Boolean showALLTaskMenu(Scanner in, User user){
+  public Boolean showALLTaskMenu(Scanner in, User user) throws IOException, CsvException {
     boolean innerState = true;
     while (innerState) {
       mainOptions.forEach(System.out::println);
@@ -108,10 +118,15 @@ public class Menu {
           showOneTaskMenu(in,user, taskId);
         }
         case 6 -> {
-          DataService.addNewTask(user, taskList);
+          Task task = DataService.addNewTask(user, taskList);
+//          fileService.addToFile(taskFile, task);
           DataService.showUsersTasks(user, null);
         }
         case 7 -> innerState = false;
+        case 8 -> {
+          DataService.deleteAllTasks(taskList);
+          fileService.clean(taskFile);
+        }
         default -> {
           return false;
         }
@@ -121,7 +136,7 @@ public class Menu {
     return true;
   }
 
-  public void showOneTaskMenu(Scanner in, User user, int taskId){
+  public void showOneTaskMenu(Scanner in, User user, int taskId) throws IOException, CsvException {
     String input;
     boolean innerState = true;
     while (innerState) {
@@ -132,7 +147,10 @@ public class Menu {
 
       switch (option) {
         case 1 -> showEditTaskMenu(in, taskList, user, taskId);
-        case 2 -> DataService.deleteTask(taskList, user, taskId);
+        case 2 -> {
+          DataService.deleteTask(taskList, user, taskId);
+          innerState = false;
+        }
         case 3 -> showChangeStatusMenu(in, user, taskId);
         case 4 -> innerState = false;
       }
@@ -140,7 +158,8 @@ public class Menu {
     DataService.showUsersTasks(user, null);
   }
 
-  private void showEditTaskMenu(Scanner in, List<Task> taskList, User user, int taskId) {
+  private void showEditTaskMenu(Scanner in, List<Task> taskList, User user, int taskId)
+      throws IOException, CsvException {
     String input;
     boolean innerState = true;
 
@@ -157,17 +176,20 @@ public class Menu {
       switch (option) {
         case 1 -> {
           System.out.println("Старый заголовок:" + task.getHeader());
-          System.out.println("Введите новоый заголовок: ");
+          System.out.println("Введите новый заголовок: ");
           input = in.nextLine();
+          fileService.updateFile(taskFile, task,task.getHeader(), input);
           task.setHeader(input);
           taskList.stream().filter(t -> t.getId() == taskId)
               .findFirst().orElse(null)
               .setHeader(input);
+          System.out.println("taskFile = " + taskFile);
         }
         case 2 -> {
           System.out.println("Старое описание:" + task.getDescription());
           System.out.println("Введите новое");
           input = in.nextLine();
+          fileService.updateFile(taskFile, task,task.getDescription(), input);
           task.setDescription(input);
           taskList.stream().filter(t -> t.getId() == taskId)
               .findFirst().orElse(null)
@@ -177,6 +199,7 @@ public class Menu {
           System.out.println("Старая дата:" + task.getDate());
           System.out.println("Введите новую");
           input = in.nextLine();
+          fileService.updateFile(taskFile, task,task.getDate().toString(), input);
           task.setDate(LocalDate.parse(input, formatter));
           taskList.stream().filter(t -> t.getId() == taskId)
               .findFirst().orElse(null)
@@ -189,12 +212,12 @@ public class Menu {
     DataService.showUsersTasks(user, null);
   }
 
-  public Map <Integer, Status> createStatusMap(){
-    Map <Integer, Status> statusMap = new HashMap<>();
+  public Map <Integer, StatusOfTask> createStatusMap(){
+    Map <Integer, StatusOfTask> statusMap = new HashMap<>();
     statusMap.put(1, null);
-    statusMap.put(2, Status.NEW);
-    statusMap.put(3, Status.IN_PROGRESS);
-    statusMap.put(4, Status.DONE);
+    statusMap.put(2, StatusOfTask.NEW);
+    statusMap.put(3, StatusOfTask.IN_PROGRESS);
+    statusMap.put(4, StatusOfTask.DONE);
     return statusMap;
   }
 }

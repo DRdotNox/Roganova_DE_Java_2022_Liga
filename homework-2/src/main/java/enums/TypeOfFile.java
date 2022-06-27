@@ -1,6 +1,6 @@
 package enums;
 
-public enum FileType {
+public enum TypeOfFile {
   USERS,
   TASKS
 }
