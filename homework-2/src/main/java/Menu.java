@@ -160,6 +160,7 @@ public class Menu {
         case 1 -> showEditTaskMenu(in, taskList, user, taskId);
         case 2 -> {
           DataService.deleteTask(taskList, user, taskId);
+          fileService.updateFile(taskFile,taskList);
           innerState = false;
         }
         case 3 -> showChangeStatusMenu(in, user, taskId);

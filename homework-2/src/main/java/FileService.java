@@ -54,6 +54,14 @@ public class FileService {
     writer.close();
   }
 
+  public void updateFile(String filename, List<Task> records)
+      throws IOException, CsvException {
+    CSVWriter writer = new CSVWriter(new FileWriter(filename));
+    for (Task record : records) {
+      writer.writeNext(record.toString().split(","));
+    }
+    writer.close();
+  }
 
   public <T> List <T> readAllRecords(String filename, TypeOfFile fileType){
     List<T> recordList;
@@ -64,8 +72,6 @@ public class FileService {
 
   public void addToFile(String filename, Task record) throws IOException {
     CSVWriter writer = new CSVWriter(new FileWriter(filename, true));
-    System.out.println("record.toString() = " + record.toString());
-    System.out.println("record.getDate().toString() = " + record.getDate().toString());
     writer.writeNext(record.toString().split(","));
     writer.close();
   }
