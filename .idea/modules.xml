@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Roganova_DE_Java_2022_Liga.iml" filepath="$PROJECT_DIR$/.idea/Roganova_DE_Java_2022_Liga.iml" />
+      <module fileurl="file://$PROJECT_DIR$/homework-3/homework.iml" filepath="$PROJECT_DIR$/homework-3/homework.iml" />
       <module fileurl="file://$PROJECT_DIR$/homework-2/homework-2.iml" filepath="$PROJECT_DIR$/homework-2/homework-2.iml" />
     </modules>
   </component>
