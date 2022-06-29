@@ -68,7 +68,6 @@ public class TaskServiceImpl implements TaskService {
     int descIndex = 0;
     int dateIndex = 0;
     int userIndex = 0;
-
     for (int i = 0; i < params.length; i++) {
       if(params[i].equals("-h")) headerIndex = i;
       if(params[i].equals("-desc")) descIndex = i;
