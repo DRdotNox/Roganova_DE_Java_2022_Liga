@@ -36,8 +36,6 @@ public class User {
   }
 
   public void showTask(int taskId) {
-    System.out.println("taskId = " + taskId);
-    this.getTasks().forEach(System.out::println);
     Task task = this.getTasks().stream().filter(t -> t.getId() == taskId).findFirst().orElse(null);
     System.out.println("Выбранная задача ");
     System.out.println("---------------------------------------------------------------------------"
