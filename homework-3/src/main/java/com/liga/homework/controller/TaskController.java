@@ -32,7 +32,6 @@ public class TaskController {
   public List<Task> getAllTasksFromUser(@PathParam("userId") Long userId){
     return taskService.getTasksFromUser(userId);
   }
-
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
   public void deleteById(@PathVariable("id") Long id){
