@@ -27,7 +27,6 @@ public class FileService {
     String[] rowToChange = record.toString().concat(", ").split(",");
     CSVWriter writer = new CSVWriter(new FileWriter(filename));
     for (int k = 1; k < rowToChange.length; k++) {
-     csvBody.forEach(System.out::println);
       if (k == 3) k++;
       if (rowToChange[k].equals(oldValue) ) {
 

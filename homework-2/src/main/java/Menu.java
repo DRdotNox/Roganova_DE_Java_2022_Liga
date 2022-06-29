@@ -211,13 +211,18 @@ public class Menu {
           System.out.println("Старая дата:" + task.getDate());
           System.out.println("Введите новую");
           input = in.nextLine();
+          try {
+            LocalDate date = LocalDate.parse(input, formatter);
+          } catch (Exception e) {
+            System.out.println("Неверный формат"); break;
+          }
           fileService.updateFile(taskFile, task,task.getDate().toString(), input);
           task.setDate(LocalDate.parse(input, formatter));
           taskList.stream().filter(t -> t.getId() == taskId)
               .findFirst().orElse(null)
               .setDate(LocalDate.parse(input, formatter));
         }
-        case 4 -> showChangeStatusMenu(in, user, taskId);
+        case 5 -> showChangeStatusMenu(in, user, taskId);
         default -> innerState = false;
       }
     }

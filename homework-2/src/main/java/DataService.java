@@ -66,7 +66,7 @@ public class DataService {
 
   public static Task addNewTask(User user, List<Task> taskList){
     Scanner in = new Scanner(System.in);
-    int lastId = taskList.size();
+    int lastId = taskList.get(taskList.size()-1).getId();
 
     System.out.println("Введите заголовок:");
     String header = in.nextLine();
