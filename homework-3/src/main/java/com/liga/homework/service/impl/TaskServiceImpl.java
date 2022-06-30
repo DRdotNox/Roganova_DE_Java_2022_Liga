@@ -61,13 +61,24 @@ public class TaskServiceImpl implements TaskService {
   }
 
   @Override
+  public List<Task> getAllTasks() {
+    return taskRepo.findAll();
+  }
+
+  @Override
   public void create(String classInfo){
     String[] params = classInfo.split(" ");
 
-    int headerIndex = 0;
-    int descIndex = 0;
-    int dateIndex = 0;
-    int userIndex = 0;
+    String header;
+    String desc ;
+    Long userId = 0L;
+    String stringDate ;
+
+    int headerIndex = -1;
+    int descIndex = -1;
+    int dateIndex = -1;
+    int userIndex = -1;
+
     for (int i = 0; i < params.length; i++) {
       if(params[i].equals("-h")) headerIndex = i;
       if(params[i].equals("-desc")) descIndex = i;
@@ -75,11 +86,24 @@ public class TaskServiceImpl implements TaskService {
       if(params[i].equals("-userId")) userIndex = i;
     }
 
-    String header = createStringParam(params, headerIndex+1, descIndex);
-    String desc = createStringParam(params,descIndex+1,userIndex);
-    Long userId = Long.parseLong(createStringParam(params,userIndex+1, dateIndex));
-    String stringDate =createStringParam(params,dateIndex+1, params.length);
+    if(headerIndex == -1) header = "Заголовок отсутствует";
+    else if (descIndex!=-1) header = createStringParam(params, headerIndex+1, descIndex);
+    else if (userIndex!=-1) header = createStringParam(params, headerIndex+1, userIndex);
+    else if (dateIndex!=-1) header = createStringParam(params, headerIndex+1, dateIndex);
+    else header = createStringParam(params, headerIndex+1, params.length);
 
+    if(descIndex == -1) desc ="Описание отсутствует";
+    else if (userIndex!=-1) desc = createStringParam(params,descIndex+1,userIndex);
+    else if (dateIndex!=-1) desc = createStringParam(params,descIndex+1,dateIndex);
+    else desc = createStringParam(params,descIndex+1, params.length);
+
+    if(userIndex == -1) userId =(long)-1;
+    else if (dateIndex!=-1) userId = Long.parseLong(createStringParam(params,userIndex+1, dateIndex));
+    else userId = Long.parseLong(createStringParam(params,userIndex+1, params.length));
+
+    if(dateIndex == -1) stringDate = LocalDate.now().format(DateTimeFormatter
+        .ofPattern("dd.MM.yyyy"));
+    else stringDate =createStringParam(params,dateIndex+1, params.length);
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     LocalDate date = LocalDate.parse(stringDate, formatter);
