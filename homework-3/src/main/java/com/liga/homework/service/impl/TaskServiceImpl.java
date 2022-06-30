@@ -33,14 +33,14 @@ public class TaskServiceImpl implements TaskService {
     Task task = taskRepo.findById(id).orElseThrow(EntityNotFoundException::new);
 
     switch (field) {
-      case "header" -> task.setHeader(newValue);
-      case "description" -> task.setDescription(newValue);
-      case "date" -> {
+      case "-h" -> task.setHeader(newValue);
+      case "-desc" -> task.setDescription(newValue);
+      case "-d" -> {
           DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
           LocalDate date = LocalDate.parse(newValue, formatter);
           task.setDate(date);
       }
-      case "status"-> task.setStatus(StatusOfTask.valueOf(newValue));
+      case "-s"-> task.setStatus(StatusOfTask.valueOf(newValue));
     }
     taskRepo.save(task);
   }
