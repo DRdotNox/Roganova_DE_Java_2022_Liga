@@ -32,9 +32,18 @@ public class MainServiceImpl <T> implements MainService {
     if(type.equals("user")) {
       return (T) userService.getOneUserById(Long.parseLong(id));
     }
-    else {
+    if(type.equals("task")){
       return (T) taskService.getOneTaskById(Long.parseLong(id));
     }
+
+    if(type.equals("users")) {
+      return (T) userService.getAllUsers();
+    }
+    if(type.equals("tasks")) {
+      return (T) taskService.getAllTasks();
+    }
+
+    return null;
   }
 
   @Override

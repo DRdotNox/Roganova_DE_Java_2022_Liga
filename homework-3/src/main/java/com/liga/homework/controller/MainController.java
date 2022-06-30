@@ -34,10 +34,14 @@ public class MainController {
       case "open" -> mainService.open();
       case "edit" -> mainService.edit(lines[1], lines[2], lines[3], lines[4]);
       case "get" -> {
-        return (T) mainService.get(lines[1], lines[2]);
+        if (lines.length<3) return (T) mainService.get(lines[1], " ");
+        else return   (T) mainService.get(lines[1], lines[2]);
       }
       case "delete" -> mainService.delete(lines[1], lines[2]);
-      case "add"-> mainService.add(lines[1],lines[2]);
+      case "add"-> {
+        if (lines.length<3) mainService.add(lines[1], " ");
+        else mainService.add(lines[1], lines[2]);
+      }
     }
 
     return null;
