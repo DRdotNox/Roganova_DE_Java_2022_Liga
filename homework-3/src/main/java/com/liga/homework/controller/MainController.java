@@ -28,7 +28,7 @@ public class MainController {
     }
 
     switch (lines[0]) {
-      case "open" -> mainService.open();
+      case "test" -> mainService.openTestDB();
       case "edit" -> mainService.edit(lines[1], lines[2], lines[3], lines[4]);
       case "get" -> {
         if (lines.length < 3) {
@@ -40,7 +40,7 @@ public class MainController {
       case "delete" -> mainService.delete(lines[1], lines[2]);
       case "add" -> {
         if (lines.length < 3) {
-          mainService.add(lines[1], " ");
+          mainService.add(lines[1], "");
         } else {
           mainService.add(lines[1], lines[2]);
         }

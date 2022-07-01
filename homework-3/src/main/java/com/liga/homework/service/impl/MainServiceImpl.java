@@ -17,12 +17,13 @@ public class MainServiceImpl <T> implements MainService {
 
   @Override
   public void add(String type, String classInfo) {
+    if(classInfo.isEmpty()) classInfo = "Нет имени";
     if(type.equals("user")) userService.save(User.builder().name(classInfo).build());
     else taskService.create(classInfo);
   }
 
   @Override
-  public void open() {
+  public void openTestDB() {
     fileService.parseCSVforTasks("homework-3/tasks.csv");
     fileService.parseCSVforUser("homework-3/users.csv");
   }
