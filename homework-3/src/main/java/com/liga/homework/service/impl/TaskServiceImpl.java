@@ -40,6 +40,7 @@ public class TaskServiceImpl implements TaskService {
           LocalDate date = LocalDate.parse(newValue, formatter);
           task.setDate(date);
       }
+      case "-userId" -> task.setUserId(Long.parseLong(newValue));
       case "-s"-> task.setStatus(StatusOfTask.valueOf(newValue));
     }
     taskRepo.save(task);
