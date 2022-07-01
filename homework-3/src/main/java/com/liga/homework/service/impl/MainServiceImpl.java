@@ -49,8 +49,15 @@ public class MainServiceImpl <T> implements MainService {
 
   @Override
   public void delete(String type, String id) {
-    if(type.equals("user")) userService.deleteById(Long.parseLong(id));
-    else taskService.deleteById(Long.parseLong(id));
+    if(type.contains("user")) {
+      if(id.equals("all")) userService.deleteAll();
+      else userService.deleteById(Long.parseLong(id));
+    }
+    else if (type.contains("task")) {
+      if(id.equals("all")) taskService.deleteAll();
+      else taskService.deleteById(Long.parseLong(id));
+    }
+
   }
 
   @Override
