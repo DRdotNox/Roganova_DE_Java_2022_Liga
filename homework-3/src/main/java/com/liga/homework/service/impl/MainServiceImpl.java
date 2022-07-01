@@ -5,7 +5,9 @@ import com.liga.homework.service.FileService;
 import com.liga.homework.service.MainService;
 import com.liga.homework.service.TaskService;
 import com.liga.homework.service.UserService;
+import java.io.IOException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -64,5 +66,10 @@ public class MainServiceImpl <T> implements MainService {
   public void edit(String type, String id, String field, String newValue) {
     if(type.equals("user")) userService.edit(Long.parseLong(id),newValue);
     else taskService.edit(Long.parseLong(id),field,newValue);
+  }
+
+  @Override
+  public ResponseEntity<String> openHelp() throws IOException {
+    return fileService.getHelpFromFile();
   }
 }
