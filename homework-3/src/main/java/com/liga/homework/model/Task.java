@@ -2,6 +2,7 @@ package com.liga.homework.model;
 
 import com.liga.homework.StatusOfTask;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -36,4 +37,10 @@ public class Task {
   private LocalDate date;
   private StatusOfTask status;
 
+  @Override
+  public String toString() {
+    String formattedDate = this.getDate().format(DateTimeFormatter
+            .ofPattern("dd.MM.yyyy"));
+    return getId() + "," + getHeader() + "," + getDescription() + "," + getUserId()+ "," + formattedDate + "," + getStatus();
+  }
 }

@@ -6,6 +6,8 @@ import com.liga.homework.service.MainService;
 import com.liga.homework.service.TaskService;
 import com.liga.homework.service.UserService;
 import java.io.IOException;
+
+import com.opencsv.exceptions.CsvException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,12 @@ public class MainServiceImpl <T> implements MainService {
   private final UserService userService;
   private final TaskService taskService;
   private final FileService fileService;
+
+  @Override
+  public void saveFiles() throws IOException, CsvException {
+    fileService.saveTaskFile();
+    fileService.saveUserFile();
+  }
 
   @Override
   public void add(String type, String classInfo) {

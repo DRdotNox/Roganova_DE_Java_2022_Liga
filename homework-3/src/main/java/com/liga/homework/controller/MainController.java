@@ -2,6 +2,8 @@ package com.liga.homework.controller;
 
 import com.liga.homework.service.MainService;
 import java.io.IOException;
+
+import com.opencsv.exceptions.CsvException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +17,7 @@ public class MainController {
   private final MainService mainService;
 
   @GetMapping("/{command}")
-  public <T> T commandLine(@PathVariable("command") String command) throws IOException {
+  public <T> T commandLine(@PathVariable("command") String command) throws IOException, CsvException {
     String[] lines = command.split(" ");
     if (lines.length > 5 && lines[0].equals("edit")) {
       for (int i = 5; i < lines.length; i++) {
@@ -48,6 +50,9 @@ public class MainController {
       case "help" -> {
         return (T) mainService.openHelp();
       }
+
+      case "save" -> mainService.saveFiles();
+
     }
 
     return null;

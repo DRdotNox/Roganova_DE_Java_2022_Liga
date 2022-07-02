@@ -8,12 +8,17 @@ import com.liga.homework.repo.UserRepo;
 import com.liga.homework.service.FileService;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+
+import com.opencsv.CSVWriter;
+import com.opencsv.exceptions.CsvException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -75,4 +80,25 @@ public class FileServiceImpl implements FileService {
     return new ResponseEntity <>(result, headers, HttpStatus.OK);
 
   }
+
+  @Override
+  public void saveUserFile()
+          throws IOException, CsvException {
+    CSVWriter writer = new CSVWriter(new FileWriter("homework-3/usersNew"));
+    for (User record : userRepo.findAll()) {
+      writer.writeNext(record.toString().split(","));
+    }
+    writer.close();
+  }
+
+  @Override
+  public void saveTaskFile()
+          throws IOException, CsvException {
+    CSVWriter writer = new CSVWriter(new FileWriter("homework-3/tasksNew"));
+    for (Task record : taskRepo.findAll()) {
+      writer.writeNext(record.toString().split(","));
+    }
+    writer.close();
+  }
+
 }
