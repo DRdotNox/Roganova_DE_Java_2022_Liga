@@ -1,6 +1,6 @@
 package com.liga.homework.model;
 
-import com.liga.homework.StatusOfTask;
+import com.liga.homework.enums.StatusOfTask;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import javax.persistence.Entity;
@@ -41,6 +41,6 @@ public class Task {
   public String toString() {
     String formattedDate = this.getDate().format(DateTimeFormatter
             .ofPattern("dd.MM.yyyy"));
-    return getId() + "," + getHeader() + "," + getDescription() + "," + getUserId()+ "," + formattedDate + "," + getStatus();
+    return getId() + "," + getHeader() + "," + getDescription() + "," + getUserId()+ "," + formattedDate + "," + getStatus() + "\n";
   }
 }
