@@ -33,4 +33,9 @@ public class User {
   @OneToMany(mappedBy="userId")
   List<Task> taskList;
 
+  @Override
+  public String toString() {
+    return getId() + "," + getName();
+  }
+
 }
