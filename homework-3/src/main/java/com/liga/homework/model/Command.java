@@ -44,9 +44,6 @@ public class Command {
       this.params = "N/I";
     }
 
-
-    Arrays.stream(lines).forEach(System.out::println);
-    System.out.println("lines[0] = " + lines[0]);
     if(this.params.toLowerCase().equals("all")){
       if(CommandType.valueOf(lines[0].toUpperCase()).equals(CommandType.DELETE))  this.commandType = CommandType.DELETE_ALL;
       else this.commandType = CommandType.GET_ALL;
