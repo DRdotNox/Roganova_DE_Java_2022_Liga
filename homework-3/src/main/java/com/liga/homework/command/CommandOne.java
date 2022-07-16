@@ -1,9 +1,7 @@
-package com.liga.homework.model;
+package com.liga.homework.command;
 
 import com.liga.homework.enums.CommandType;
 import com.liga.homework.enums.DataType;
-import java.util.Arrays;
-import java.util.Locale;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,7 +13,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Command {
+public class CommandOne {
 
   private final int ACCEPTABLE_LENGTH = 3;
 
@@ -23,7 +21,7 @@ public class Command {
   DataType dataType;
   String params;
 
-  public Command(String command) {
+  public CommandOne(String command) {
 
     String[] lines = command.split(" ");
     if (lines.length>=ACCEPTABLE_LENGTH ){
@@ -44,9 +42,6 @@ public class Command {
       this.params = "N/I";
     }
 
-
-    Arrays.stream(lines).forEach(System.out::println);
-    System.out.println("lines[0] = " + lines[0]);
     if(this.params.toLowerCase().equals("all")){
       if(CommandType.valueOf(lines[0].toUpperCase()).equals(CommandType.DELETE))  this.commandType = CommandType.DELETE_ALL;
       else this.commandType = CommandType.GET_ALL;

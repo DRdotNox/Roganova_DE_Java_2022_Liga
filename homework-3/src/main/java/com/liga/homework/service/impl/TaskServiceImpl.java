@@ -66,11 +66,9 @@ public class TaskServiceImpl implements TaskService {
   }
 
   @Override
-  public void create(String classInfo){
+  public void create(String[] params){
 
     Task task = new Task();
-
-    String[] params = classInfo.split(" ");
 
     String header;
     String desc ;

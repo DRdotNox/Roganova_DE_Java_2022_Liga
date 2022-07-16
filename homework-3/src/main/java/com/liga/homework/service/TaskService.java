@@ -14,7 +14,7 @@ public interface TaskService {
   void deleteAll();
 
   void edit(long id, String field, String newValue);
-  void create(String classInfo);
+  void create(String [] params);
 
   String createStringParam(String[] base, int start, int end);
 }
