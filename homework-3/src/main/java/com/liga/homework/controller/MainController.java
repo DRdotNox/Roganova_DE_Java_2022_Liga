@@ -17,7 +17,7 @@ public class MainController {
   private final MainService mainService;
 
   @GetMapping("/{command}")
-  public <T> T commandLine(@PathVariable("command") String command) throws IOException, CsvException {
+  public <T> T commandLine(@PathVariable("command") String command) throws Exception {
     String[] lines = command.split(" ");
     if (lines.length > 5 && lines[0].equals("edit")) {
       for (int i = 5; i < lines.length; i++) {

@@ -54,9 +54,10 @@ public class FileServiceImpl implements FileService {
       while ((line = br.readLine()) != null) {
         String[] values = line.replaceAll("\"","").split(",");
         StatusOfTask status = StatusOfTask.NEW;
+        User user = User.builder().id(Long.parseLong(values[3].trim())).build();
         if (values.length == 6)  status = StatusOfTask.valueOf(values [5]);
         Task task = new Task(Long.parseLong(values[0].trim()), values[1].trim(), values[2].trim(),
-            Long.parseLong(values[3].trim()), LocalDate.parse(values[4].trim(), formatter), status);
+            user, LocalDate.parse(values[4].trim(), formatter), status);
         taskRepo.save(task);
       }
     } catch (IOException e) {
