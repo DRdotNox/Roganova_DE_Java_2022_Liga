@@ -20,6 +20,8 @@ import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -72,14 +74,13 @@ public class FileServiceImpl implements FileService {
   }
 
   @Override
-  public String getHelpFromFile(){
-    String result = null;
-    try {
-      result = Files.readString(Path.of("homework-3/help.txt"), StandardCharsets.UTF_8);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    return result;
+  public ResponseEntity<String> getHelpFromFile() throws IOException {
+    HttpHeaders headers = new HttpHeaders();
+    headers.add("Content-Type", "text/plain; charset=utf-8");
+
+    String result = Files.readString(Path.of("help.txt"), StandardCharsets.UTF_8);
+
+    return new ResponseEntity <>(result, headers, HttpStatus.OK);
 
   }
 

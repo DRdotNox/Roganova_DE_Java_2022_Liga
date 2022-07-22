@@ -8,7 +8,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.liga.homework.StatusOfTask;
+import com.liga.homework.enums.StatusOfTask;
 import com.liga.homework.model.Task;
 import com.liga.homework.model.User;
 import com.liga.homework.repo.TaskRepo;
@@ -104,9 +104,9 @@ class FileServiceTest {
   private List<Task> getTaskList() {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     LocalDate date = LocalDate.parse("11.03.1997",formatter);
-    Task task1 = Task.builder().header("Transfiguration").date(date).build();
-    Task task2 = Task.builder().description("Turn rat into glass").date(date).build();
-    Task task3 = Task.builder().date(date).status(StatusOfTask.DONE).build();
+    Task task1 = Task.builder().header("Transfiguration").user(new User()).date(date).build();
+    Task task2 = Task.builder().description("Turn rat into glass").user(new User()).date(date).build();
+    Task task3 = Task.builder().date(date).status(StatusOfTask.DONE).user(new User()).build();
     return List.of(task1,task2,task3);
   }
 

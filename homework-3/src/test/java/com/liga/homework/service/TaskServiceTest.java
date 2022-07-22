@@ -6,9 +6,10 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.liga.homework.StatusOfTask;
+import com.liga.homework.enums.StatusOfTask;
 import com.liga.homework.model.Task;
 import com.liga.homework.repo.TaskRepo;
+import com.liga.homework.repo.UserRepo;
 import com.liga.homework.service.impl.TaskServiceImpl;
 import java.util.List;
 import java.util.Optional;
@@ -30,6 +31,9 @@ class TaskServiceTest {
 
   @Mock
   TaskRepo taskRepo;
+
+  @Mock
+  UserRepo userRepo;
 
   @Test
   void Should_GetOneTaskById_When_IdIsValid() {
@@ -77,14 +81,15 @@ class TaskServiceTest {
       "-h Пастафарианство для чайников -userId 3",
       "-h Сделать больно 101 -desc Распарсить эту команду правильно -userId 3 -d 11.03.1997"
   })
-  void Should_SaveEditedTask(String params) {
+  void Should_SaveEditedTask(String paramString) {
+    String [] params = paramString.split(" ");
     assertDoesNotThrow(()->taskService.create(params));
     verify(taskRepo, times(1)).save(any());
   }
 
   @BeforeEach
   void setup(){
-    taskService = Mockito.spy(new TaskServiceImpl(taskRepo));
+    taskService = Mockito.spy(new TaskServiceImpl(taskRepo,userRepo));
   }
 
   private Task getNewTask() {

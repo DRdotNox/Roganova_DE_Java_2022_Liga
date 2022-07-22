@@ -1,6 +1,6 @@
 package com.liga.homework.model;
 
-import com.liga.homework.StatusOfTask;
+import com.liga.homework.enums.StatusOfTask;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import javax.persistence.CascadeType;

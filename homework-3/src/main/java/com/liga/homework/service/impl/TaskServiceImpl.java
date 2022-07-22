@@ -1,6 +1,6 @@
 package com.liga.homework.service.impl;
 
-import com.liga.homework.StatusOfTask;
+import com.liga.homework.enums.StatusOfTask;
 import com.liga.homework.model.Task;
 import com.liga.homework.model.User;
 import com.liga.homework.repo.TaskRepo;
@@ -74,9 +74,7 @@ public class TaskServiceImpl implements TaskService {
   }
 
   @Override
-  public void create(String classInfo){
-    String[] params = classInfo.split(" ");
-
+  public void create(String[] params){
     String header;
     String desc ;
     Long userId = 0L;
@@ -110,7 +108,7 @@ public class TaskServiceImpl implements TaskService {
     else userId = Long.parseLong(createStringParam(params,userIndex+1, params.length));
 
     if(dateIndex == -1) stringDate = LocalDate.now().format(DateTimeFormatter
-        .ofPattern("dd.MM.yyyy"));
+            .ofPattern("dd.MM.yyyy"));
     else stringDate =createStringParam(params,dateIndex+1, params.length);
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
