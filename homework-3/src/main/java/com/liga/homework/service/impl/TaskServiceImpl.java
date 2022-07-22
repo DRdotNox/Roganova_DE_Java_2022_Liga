@@ -1,6 +1,6 @@
 package com.liga.homework.service.impl;
 
-import com.liga.homework.StatusOfTask;
+import com.liga.homework.enums.StatusOfTask;
 import com.liga.homework.model.Task;
 import com.liga.homework.repo.TaskRepo;
 import com.liga.homework.service.TaskService;
@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class TaskServiceImpl implements TaskService {
-
   private final TaskRepo taskRepo;
 
   @Override
@@ -67,8 +66,9 @@ public class TaskServiceImpl implements TaskService {
   }
 
   @Override
-  public void create(String classInfo){
-    String[] params = classInfo.split(" ");
+  public void create(String[] params){
+
+    Task task = new Task();
 
     String header;
     String desc ;
@@ -109,7 +109,6 @@ public class TaskServiceImpl implements TaskService {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     LocalDate date = LocalDate.parse(stringDate, formatter);
 
-    Task task = new Task();
     task.setHeader(header);
     task.setDescription(desc);
     task.setUserId(userId);
