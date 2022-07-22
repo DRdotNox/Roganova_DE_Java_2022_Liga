@@ -1,6 +1,6 @@
 package com.liga.homework.service.impl;
 
-import com.liga.homework.StatusOfTask;
+import com.liga.homework.enums.StatusOfTask;
 import com.liga.homework.model.Task;
 import com.liga.homework.model.User;
 import com.liga.homework.repo.TaskRepo;
@@ -15,14 +15,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -31,6 +28,9 @@ public class FileServiceImpl implements FileService {
 
   private final UserRepo userRepo;
   private final TaskRepo taskRepo;
+
+  String USER_FILE = "homework-3/users.csv";
+  String TASK_FILE = "homework-3/tasks.csv";
 
   @Override
   public void parseCSVforUser(String filename) {
@@ -65,27 +65,28 @@ public class FileServiceImpl implements FileService {
     }
   }
   @Override
-  public Void open(String taskFile, String userFile){
-    parseCSVforUser(userFile);
-    parseCSVforTasks(taskFile);
-    return null;
+  public String open(){
+    parseCSVforUser(USER_FILE);
+    parseCSVforTasks(TASK_FILE);
+    return "БД успешно заполнена";
   }
 
   @Override
-  public ResponseEntity<String> getHelpFromFile() throws IOException {
-    HttpHeaders headers = new HttpHeaders();
-    headers.add("Content-Type", "text/plain; charset=utf-8");
-
-    String result = Files.readString(Path.of("homework-3/help.txt"), StandardCharsets.UTF_8);
-
-    return new ResponseEntity <>(result, headers, HttpStatus.OK);
+  public String getHelpFromFile(){
+    String result = null;
+    try {
+      result = Files.readString(Path.of("homework-3/help.txt"), StandardCharsets.UTF_8);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return result;
 
   }
 
   @Override
   public void saveUserFile()
           throws IOException, CsvException {
-    CSVWriter writer = new CSVWriter(new FileWriter("homework-3/usersNew"));
+    CSVWriter writer = new CSVWriter(new FileWriter("usersNew.csv"));
     for (User record : userRepo.findAll()) {
       writer.writeNext(record.toString().split(","));
     }
@@ -93,9 +94,22 @@ public class FileServiceImpl implements FileService {
   }
 
   @Override
+  public String save() {
+    try {
+      saveTaskFile();
+      saveUserFile();
+    } catch (IOException e) {
+      e.printStackTrace();
+    } catch (CsvException e) {
+      e.printStackTrace();
+    }
+    return "Ваши записи сохранены в новые файлы";
+  }
+
+  @Override
   public void saveTaskFile()
           throws IOException, CsvException {
-    CSVWriter writer = new CSVWriter(new FileWriter("homework-3/tasksNew"));
+    CSVWriter writer = new CSVWriter(new FileWriter("tasksNew.csv"));
     for (Task record : taskRepo.findAll()) {
       writer.writeNext(record.toString().split(","));
     }

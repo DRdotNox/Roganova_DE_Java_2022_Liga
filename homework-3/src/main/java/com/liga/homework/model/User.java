@@ -40,7 +40,7 @@ public class User {
 
   @Override
   public String toString() {
-    return getId() + "," + getName();
+    return getId() + " , " + getName() + "\n";
   }
 
 }

@@ -1,4 +1,4 @@
-package com.liga.homework;
+package com.liga.homework.enums;
 
 public enum StatusOfTask {
   NEW,
