@@ -30,8 +30,8 @@ public class Task {
   private String header;
   private String description;
 
-//  @ManyToOne(targetEntity = User.class)
-//  @JoinColumn(name="userId")
+  @ManyToOne(targetEntity = User.class)
+  @JoinColumn(name="userId")
   private Long userId;
 
   private LocalDate date;

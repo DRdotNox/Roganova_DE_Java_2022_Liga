@@ -85,7 +85,7 @@ public class FileServiceImpl implements FileService {
   @Override
   public void saveUserFile()
           throws IOException, CsvException {
-    CSVWriter writer = new CSVWriter(new FileWriter("homework-3/usersNew"));
+    CSVWriter writer = new CSVWriter(new FileWriter("usersNew.csv"));
     for (User record : userRepo.findAll()) {
       writer.writeNext(record.toString().split(","));
     }
@@ -108,7 +108,7 @@ public class FileServiceImpl implements FileService {
   @Override
   public void saveTaskFile()
           throws IOException, CsvException {
-    CSVWriter writer = new CSVWriter(new FileWriter("homework-3/tasksNew"));
+    CSVWriter writer = new CSVWriter(new FileWriter("tasksNew.csv"));
     for (Task record : taskRepo.findAll()) {
       writer.writeNext(record.toString().split(","));
     }
