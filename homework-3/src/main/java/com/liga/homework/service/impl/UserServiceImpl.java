@@ -3,6 +3,7 @@ package com.liga.homework.service.impl;
 import com.liga.homework.model.User;
 import com.liga.homework.repo.UserRepo;
 import com.liga.homework.service.UserService;
+import java.util.Comparator;
 import java.util.List;
 import javax.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,20 @@ public class UserServiceImpl implements UserService {
   @Override
   public User getOneUserById(Long id) {
     return userRepo.findById(id).orElseThrow(EntityNotFoundException::new);
+  }
+
+  @Override
+  public User getUserWithMaxTasks() {
+    return userRepo.findAll().stream()
+        .max(new Comparator<User>() {
+      @Override
+      public int compare(User o1, User o2) {
+        if(o1.getTaskList().size() < o2.getTaskList().size()) return -1;
+        if (o1.getTaskList().size() > o2.getTaskList().size()) return 1;
+        else return 0;
+      }
+    })
+        .get();
   }
 
   @Override

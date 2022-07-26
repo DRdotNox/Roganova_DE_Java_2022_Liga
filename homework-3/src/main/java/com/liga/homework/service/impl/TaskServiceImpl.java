@@ -1,9 +1,13 @@
 package com.liga.homework.service.impl;
 
+import com.liga.homework.SearchCriteria;
 import com.liga.homework.enums.StatusOfTask;
 import com.liga.homework.model.Task;
+import com.liga.homework.model.User;
 import com.liga.homework.repo.TaskRepo;
+import com.liga.homework.repo.UserRepo;
 import com.liga.homework.service.TaskService;
+import com.liga.homework.specification.TaskSpecification;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -14,7 +18,9 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class TaskServiceImpl implements TaskService {
+
   private final TaskRepo taskRepo;
+  private final UserRepo userRepo;
 
   @Override
   public Task getOneTaskById(Long id) {
@@ -39,7 +45,11 @@ public class TaskServiceImpl implements TaskService {
           LocalDate date = LocalDate.parse(newValue, formatter);
           task.setDate(date);
       }
-      case "-userId" -> task.setUserId(Long.parseLong(newValue));
+      case "-userId" -> {
+        Long userId = Long.parseLong(newValue);
+        User user =  userRepo.findById(userId).orElseThrow(EntityNotFoundException::new);
+        task.setUser(user);
+      }
       case "-s"-> task.setStatus(StatusOfTask.valueOf(newValue));
     }
     taskRepo.save(task);
@@ -56,8 +66,9 @@ public class TaskServiceImpl implements TaskService {
   }
 
   @Override
-  public List<Task> getTasksFromUser(Long userId) {
-    return taskRepo.findByUserId(userId);
+  public List<Task> getFilteredTasks(SearchCriteria searchCriteria) {
+    TaskSpecification spec = new TaskSpecification(searchCriteria);
+    return taskRepo.findAll(spec);
   }
 
   @Override
@@ -67,8 +78,6 @@ public class TaskServiceImpl implements TaskService {
 
   @Override
   public void create(String[] params){
-
-    Task task = new Task();
 
     String header;
     String desc ;
@@ -109,9 +118,10 @@ public class TaskServiceImpl implements TaskService {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     LocalDate date = LocalDate.parse(stringDate, formatter);
 
+    Task task = new Task();
     task.setHeader(header);
     task.setDescription(desc);
-    task.setUserId(userId);
+    if(userId!=null)task.setUser(User.builder().id(userId).build());
     task.setDate(date);
     task.setStatus(StatusOfTask.NEW);
 
