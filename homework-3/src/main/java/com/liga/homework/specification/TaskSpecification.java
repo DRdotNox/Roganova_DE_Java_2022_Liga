@@ -26,8 +26,9 @@ import org.springframework.lang.Nullable;
 public class TaskSpecification implements Specification<Task> {
 
   private final String STATUS_FIELD = "status";
+  private final String USER_FIELD = "user";
+  private final String DATE_FIELD = "date";
   private SearchCriteria searchCriteria;
-  //private String criteria;
 
   @Nullable
   @Override
@@ -35,16 +36,16 @@ public class TaskSpecification implements Specification<Task> {
                                CriteriaBuilder builder) {
     List<Predicate> predicates = new ArrayList<>();
 
-    predicates.add(builder.equal(root.get("user"), searchCriteria.getUser()));
+    predicates.add(builder.equal(root.get(USER_FIELD), searchCriteria.getUser()));
 
     if(searchCriteria.getStatusOfTask()!=null){
       predicates.add(builder.equal(root.get(STATUS_FIELD), searchCriteria.getStatusOfTask()));
     }
     if (searchCriteria.getDateFrom() != null) {
-      predicates.add(builder.greaterThanOrEqualTo(root.get("date"), searchCriteria.getDateFrom()));
+      predicates.add(builder.greaterThanOrEqualTo(root.get(DATE_FIELD), searchCriteria.getDateFrom()));
     }
     if (searchCriteria.getDateTo() != null) {
-     predicates.add(builder.lessThanOrEqualTo(root.get("date"), searchCriteria.getDateTo()));
+     predicates.add(builder.lessThanOrEqualTo(root.get(DATE_FIELD), searchCriteria.getDateTo()));
     }
     return builder.and(predicates.toArray(new Predicate[0]));
     }
