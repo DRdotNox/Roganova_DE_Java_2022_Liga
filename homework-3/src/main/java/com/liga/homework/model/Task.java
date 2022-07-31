@@ -18,7 +18,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity(name = "tasks")
+@Entity
+@Table(name = "tasks")
 public class Task {
   @Id
   @Column(name = "Id")
@@ -30,13 +31,15 @@ public class Task {
   @Column(name = "description")
   private String description;
 
-  @ManyToOne(targetEntity = User.class)
-  @JoinColumn(name="userId")
-  private Long userId;
+  @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+  @JoinColumn(name="user_id",referencedColumnName = "Id")
+  private User user;
 
   @Column(name = "date")
   private LocalDate date;
-  @Column(name = "status")
+
+  @Enumerated(EnumType.STRING)
+  @Column(name="status",columnDefinition = "varchar(255) default 'EMPTY'")
   private StatusOfTask status;
 
   @OneToMany(mappedBy="task",targetEntity = Comment.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -46,6 +49,6 @@ public class Task {
   public String toString() {
     String formattedDate = this.getDate().format(DateTimeFormatter
             .ofPattern("dd.MM.yyyy"));
-    return getId() + "," + getHeader() + "," + getDescription() + "," + formattedDate + "," + getStatus() + "\n";
+    return getId() + "," + getHeader() + "," + getDescription() + "," + user.getId()+ "," + formattedDate + "," + getStatus();
   }
 }

@@ -24,7 +24,13 @@ public class TaskCommandMap implements CommandMap{
     commandMap.put(CommandType.GET_ALL, params -> handler.getALL());
     commandMap.put(CommandType.DELETE, params -> handler.delete(params));
     commandMap.put(CommandType.DELETE_ALL, params -> handler.deleteAll());
-    commandMap.put(CommandType.EDIT, params -> handler.edit(params));
+    commandMap.put(CommandType.EDIT, params -> {
+      try {
+        return handler.edit(params);
+      } catch (Exception e) {
+        throw new RuntimeException(e);
+      }
+    });
     return commandMap;
   }
 
