@@ -32,10 +32,10 @@ import org.springframework.lang.Nullable;
 @Table(name = "tasks")
 public class Task {
   @Id
+  @Column(name = "Id")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name="Id")
   private Long id;
-
   @Column(name="Header")
   private String header;
   @Column(name="Description")
@@ -51,6 +51,9 @@ public class Task {
   @Enumerated(EnumType.STRING)
   @Column(name="Status",columnDefinition = "varchar(255) default 'EMPTY'")
   private StatusOfTask status;
+
+  @OneToMany(mappedBy="task",targetEntity = Comment.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  List<Comment> commentList;
 
   @Override
   public String toString() {

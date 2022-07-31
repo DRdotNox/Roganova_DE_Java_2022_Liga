@@ -1,6 +1,7 @@
 package com.liga.homework.service.impl;
 
 import com.liga.homework.enums.StatusOfTask;
+import com.liga.homework.model.Comment;
 import com.liga.homework.model.Task;
 import com.liga.homework.model.User;
 import com.liga.homework.repo.TaskRepo;
@@ -59,7 +60,29 @@ public class TaskServiceImpl implements TaskService {
   }
 
   @Override
+  public List<Comment> getAllComments(Long taskId) {
+    System.out.println("taskId = " + taskId);
+    return this.getOneTaskById(taskId).getCommentList();
+  }
+
+  @Override
   public void save(Task task) {
+    if(task == null){
+      task = Task.builder()
+              .header("Нет заголовка")
+              .description("Нет описания")
+              .userId(-1L)
+              .date(LocalDate.now())
+              .build();
+    }
+    else{
+      if(task.getHeader() == null) task.setHeader("Нет заголовка");
+      if(task.getDescription() == null) task.setDescription("Нет описания");
+      if(task.getUserId() == null) task.setUserId(-1L);
+      if(task.getDate() == null) task.setDate(LocalDate.now());
+    }
+    System.out.println("task = " + task);
+    task.setStatus(StatusOfTask.NEW);
     taskRepo.save(task);
   }
 

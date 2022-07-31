@@ -40,7 +40,8 @@ public class FileServiceImpl implements FileService {
       String line;
       while ((line = br.readLine()) != null) {
         String[] values = line.split(",");
-        userRepo.save(new User(Long.parseLong(values[0].trim()),values[1].trim(),null));
+        userRepo.save(new User(Long.parseLong(values[0].trim()),values[1].trim(),values[2].trim(),values[3].trim(),
+                null,null));
       }
     } catch (IOException e) {
       e.printStackTrace();

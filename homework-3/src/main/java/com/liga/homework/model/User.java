@@ -31,12 +31,26 @@ public class User {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name="Id")
   private Long id;
-
-  @Column(name="Name")
+  @Column(name = "name")
   private String name;
 
+  @Column(name = "email")
+  private String email;
+
+  @Column(name = "password")
+  private String password;
+
+  @Column(name = "tasks")
   @OneToMany(mappedBy="user", fetch = FetchType.LAZY)
   List<Task> taskList;
+
+  @Column(name = "projects")
+  @ManyToMany
+  @JoinTable(
+          name = "user_project",
+          joinColumns = @JoinColumn(name = "user_id"),
+          inverseJoinColumns = @JoinColumn(name = "project_id"))
+  Set<Project> projects;
 
   @Override
   public String toString() {
