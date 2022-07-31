@@ -12,7 +12,7 @@ public class TaskHandlerImpl implements TaskHandler {
   private final TaskService taskService;
 
   @Override
-  public String edit(String [] params) {
+  public String edit(String [] params) throws Exception {
     Long id = Long.parseLong(params[0]);
     String field = params[1];
     String newValue = Arrays.stream(params).skip(2).map(Object::toString).collect(Collectors.joining(" "));

@@ -5,6 +5,8 @@ import com.liga.homework.service.FileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+
 @Component
 @RequiredArgsConstructor
 public class FileHandlerImpl implements FileHandler {
@@ -21,7 +23,7 @@ public class FileHandlerImpl implements FileHandler {
   }
 
   @Override
-  public String help() {
-    return fileService.getHelpFromFile();
+  public String help() throws IOException {
+    return fileService.getHelpFromFile().getBody();
   }
 }

@@ -3,7 +3,9 @@ package com.liga.homework.service.impl;
 import com.liga.homework.enums.StatusOfTask;
 import com.liga.homework.model.Comment;
 import com.liga.homework.model.Task;
+import com.liga.homework.model.User;
 import com.liga.homework.repo.TaskRepo;
+import com.liga.homework.repo.UserRepo;
 import com.liga.homework.service.TaskService;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -15,7 +17,9 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class TaskServiceImpl implements TaskService {
+
   private final TaskRepo taskRepo;
+  private final UserRepo userRepo;
 
   @Override
   public Task getOneTaskById(Long id) {
@@ -28,7 +32,7 @@ public class TaskServiceImpl implements TaskService {
   }
 
   @Override
-  public void edit(long id, String field, String newValue) {
+  public void edit(long id, String field, String newValue) throws Exception {
 
     Task task = taskRepo.findById(id).orElseThrow(EntityNotFoundException::new);
 
@@ -40,7 +44,11 @@ public class TaskServiceImpl implements TaskService {
           LocalDate date = LocalDate.parse(newValue, formatter);
           task.setDate(date);
       }
-      case "-userId" -> task.setUserId(Long.parseLong(newValue));
+      case "-userId" -> {
+        Long userId = Long.parseLong(newValue);
+        User user =  userRepo.findById(userId).orElseThrow(EntityNotFoundException::new);
+        task.setUser(user);
+      }
       case "-s"-> task.setStatus(StatusOfTask.valueOf(newValue));
     }
     taskRepo.save(task);
@@ -90,9 +98,6 @@ public class TaskServiceImpl implements TaskService {
 
   @Override
   public void create(String[] params){
-
-    Task task = new Task();
-
     String header;
     String desc ;
     Long userId = 0L;
@@ -121,20 +126,22 @@ public class TaskServiceImpl implements TaskService {
     else if (dateIndex!=-1) desc = createStringParam(params,descIndex+1,dateIndex);
     else desc = createStringParam(params,descIndex+1, params.length);
 
-    if(userIndex == -1) userId =(long)-1;
+    if(userIndex == -1) userId =null;
     else if (dateIndex!=-1) userId = Long.parseLong(createStringParam(params,userIndex+1, dateIndex));
     else userId = Long.parseLong(createStringParam(params,userIndex+1, params.length));
 
     if(dateIndex == -1) stringDate = LocalDate.now().format(DateTimeFormatter
-        .ofPattern("dd.MM.yyyy"));
+            .ofPattern("dd.MM.yyyy"));
     else stringDate =createStringParam(params,dateIndex+1, params.length);
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     LocalDate date = LocalDate.parse(stringDate, formatter);
 
+
+    Task task = new Task();
     task.setHeader(header);
     task.setDescription(desc);
-    task.setUserId(userId);
+    if(userId!=null)task.setUser(User.builder().id(userId).build());
     task.setDate(date);
     task.setStatus(StatusOfTask.NEW);
 

@@ -14,7 +14,7 @@ public interface TaskService {
   void deleteById(Long id);
   void deleteAll();
 
-  void edit(long id, String field, String newValue);
+  void edit(long id, String field, String newValue) throws Exception;
   void create(String [] params);
 
   String createStringParam(String[] base, int start, int end);
