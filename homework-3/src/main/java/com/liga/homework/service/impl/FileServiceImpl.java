@@ -1,5 +1,6 @@
 package com.liga.homework.service.impl;
 
+import com.liga.homework.enums.Role;
 import com.liga.homework.enums.StatusOfTask;
 import com.liga.homework.model.Task;
 import com.liga.homework.model.User;
@@ -39,7 +40,7 @@ public class FileServiceImpl implements FileService {
       while ((line = br.readLine()) != null) {
         String[] values = line.split(",");
         userRepo.save(new User(Long.parseLong(values[0].trim()),values[1].trim(),values[2].trim(),values[3].trim(),
-                null,null));
+                null,null, Role.ADMIN));
       }
     } catch (IOException e) {
       e.printStackTrace();

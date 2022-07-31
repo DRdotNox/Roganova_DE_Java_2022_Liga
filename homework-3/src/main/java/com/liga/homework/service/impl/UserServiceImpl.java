@@ -5,6 +5,8 @@ import com.liga.homework.repo.UserRepo;
 import com.liga.homework.service.UserService;
 import java.util.List;
 import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,7 @@ public class UserServiceImpl implements UserService {
     return userRepo.findAll();
   }
 
+  @Transactional
   @Override
   public void edit(Long id, String newValue) {
     User user = userRepo.findById(id).orElseThrow(EntityNotFoundException::new);
@@ -31,16 +34,19 @@ public class UserServiceImpl implements UserService {
     return userRepo.findById(id).orElseThrow(EntityNotFoundException::new);
   }
 
+  @Transactional
   @Override
   public void save(User user) {
     userRepo.save(user);
   }
 
+  @Transactional
   @Override
   public void deleteById(Long id) {
     userRepo.deleteById(id);
   }
 
+  @Transactional
   @Override
   public void deleteAll() {
     userRepo.deleteAll();

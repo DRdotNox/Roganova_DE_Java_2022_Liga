@@ -30,8 +30,8 @@ public class Task {
   @Column(name = "description")
   private String description;
 
-//  @ManyToOne(targetEntity = User.class)
-//  @JoinColumn(name="userId")
+  @ManyToOne(targetEntity = User.class)
+  @JoinColumn(name="userId")
   private Long userId;
 
   @Column(name = "date")
@@ -46,6 +46,6 @@ public class Task {
   public String toString() {
     String formattedDate = this.getDate().format(DateTimeFormatter
             .ofPattern("dd.MM.yyyy"));
-    return getId() + "," + getHeader() + "," + getDescription() + "," + getUserId()+ "," + formattedDate + "," + getStatus() + "\n";
+    return getId() + "," + getHeader() + "," + getDescription() + "," + formattedDate + "," + getStatus() + "\n";
   }
 }

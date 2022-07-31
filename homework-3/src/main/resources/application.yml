@@ -1,11 +1,25 @@
 spring:
   datasource:
     url: jdbc:h2:mem:testdb
-    username: sa
-    password: password
+    username: root
+    password: root
     driverClassName: org.h2.Driver
   h2:
     console.enabled: true
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     defer-datasource-initialization: true
+  main:
+    allow-circular-references: true
+  security:
+    user:
+      name: test
+      password: test
+      roles: ADMIN
+  flyway:
+    user: root
+    password: root
+    default-schema: schema
+    baseline-on-migrate: true
+    locations: filesystem:migration
+    url: jdbc:h2:mem:testdb

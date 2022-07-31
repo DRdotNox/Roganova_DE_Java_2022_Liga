@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Set;
 import javax.persistence.*;
 
+import com.liga.homework.enums.Role;
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Generated;
@@ -44,6 +46,10 @@ public class User {
           joinColumns = @JoinColumn(name = "user_id"),
           inverseJoinColumns = @JoinColumn(name = "project_id"))
   Set<Project> projects;
+
+  @NotNull
+  @Column(name="role")
+  Role role;
 
   @Override
   public String toString() {

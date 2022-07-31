@@ -9,6 +9,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,11 +24,13 @@ public class TaskServiceImpl implements TaskService {
     return taskRepo.findById(id).orElseThrow(EntityNotFoundException::new);
   }
 
+  @Transactional
   @Override
   public void deleteAll() {
     taskRepo.deleteAll();
   }
 
+  @Transactional
   @Override
   public void edit(long id, String field, String newValue) {
 
@@ -46,6 +50,7 @@ public class TaskServiceImpl implements TaskService {
     taskRepo.save(task);
   }
 
+  @Transactional
   @Override
   public void deleteById(Long id) {
     taskRepo.deleteById(id);
@@ -57,6 +62,7 @@ public class TaskServiceImpl implements TaskService {
     return this.getOneTaskById(taskId).getCommentList();
   }
 
+  @Transactional
   @Override
   public void save(Task task) {
     if(task == null){
@@ -88,6 +94,7 @@ public class TaskServiceImpl implements TaskService {
     return taskRepo.findAll();
   }
 
+  @Transactional
   @Override
   public void create(String[] params){
 
