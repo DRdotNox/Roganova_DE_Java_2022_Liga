@@ -3,12 +3,9 @@ package com.liga.homework.model;
 import com.liga.homework.enums.StatusOfTask;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import java.util.List;
+import javax.persistence.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,18 +21,26 @@ import lombok.Setter;
 @Entity(name = "tasks")
 public class Task {
   @Id
+  @Column(name = "Id")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @Column(name = "header")
   private String header;
+  @Column(name = "description")
   private String description;
 
-  @ManyToOne(targetEntity = User.class)
-  @JoinColumn(name="userId")
+//  @ManyToOne(targetEntity = User.class)
+//  @JoinColumn(name="userId")
   private Long userId;
 
+  @Column(name = "date")
   private LocalDate date;
+  @Column(name = "status")
   private StatusOfTask status;
+
+  @OneToMany(mappedBy="task",targetEntity = Comment.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  List<Comment> commentList;
 
   @Override
   public String toString() {

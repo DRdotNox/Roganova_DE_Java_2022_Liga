@@ -38,7 +38,8 @@ public class FileServiceImpl implements FileService {
       String line;
       while ((line = br.readLine()) != null) {
         String[] values = line.split(",");
-        userRepo.save(new User(Long.parseLong(values[0].trim()),values[1].trim(),null));
+        userRepo.save(new User(Long.parseLong(values[0].trim()),values[1].trim(),values[2].trim(),values[3].trim(),
+                null,null));
       }
     } catch (IOException e) {
       e.printStackTrace();
@@ -56,7 +57,7 @@ public class FileServiceImpl implements FileService {
         StatusOfTask status = StatusOfTask.NEW;
         if (values.length == 6)  status = StatusOfTask.valueOf(values [5]);
         Task task = new Task(Long.parseLong(values[0].trim()), values[1].trim(), values[2].trim(),
-            Long.parseLong(values[3].trim()), LocalDate.parse(values[4].trim(), formatter), status);
+            Long.parseLong(values[3].trim()), LocalDate.parse(values[4].trim(), formatter), status,null);
         taskRepo.save(task);
       }
     } catch (IOException e) {
