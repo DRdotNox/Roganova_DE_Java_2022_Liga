@@ -10,4 +10,6 @@ public interface UserService {
   void save(User user);
   void deleteById(Long id);
   void deleteAll();
+
+  User getUserWithMaxTasks();
 }
