@@ -1,6 +1,8 @@
 package com.liga.homework.model;
 
 import java.util.List;
+import javax.persistence.*;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -41,7 +43,8 @@ public class User {
   private String password;
 
   @Column(name = "tasks")
-  @OneToMany(mappedBy="user", fetch = FetchType.LAZY)
+  @OneToMany(mappedBy="user", targetEntity = Task.class, cascade = CascadeType.ALL,fetch = FetchType.LAZ
+
   List<Task> taskList;
 
   @Column(name = "projects")

@@ -1,5 +1,6 @@
 package com.liga.homework.service;
 
+import com.liga.homework.model.UserTaskDTO;
 import java.io.IOException;
 
 import com.opencsv.exceptions.CsvException;
@@ -19,4 +20,6 @@ public interface MainService <T> {
   ResponseEntity<String> openHelp() throws IOException;
 
   void saveFiles() throws IOException, CsvException;
+
+  ResponseEntity<UserTaskDTO> getUserWithMaxTasks(String spec, String dateFrom, String dateTo);
 }

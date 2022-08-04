@@ -1,5 +1,6 @@
 package com.liga.homework.service.impl;
 
+import com.liga.homework.SearchCriteria;
 import com.liga.homework.enums.StatusOfTask;
 import com.liga.homework.model.Comment;
 import com.liga.homework.model.Task;
@@ -7,6 +8,7 @@ import com.liga.homework.model.User;
 import com.liga.homework.repo.TaskRepo;
 import com.liga.homework.repo.UserRepo;
 import com.liga.homework.service.TaskService;
+import com.liga.homework.specification.TaskSpecification;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -87,8 +89,9 @@ public class TaskServiceImpl implements TaskService {
   }
 
   @Override
-  public List<Task> getTasksFromUser(Long userId) {
-    return taskRepo.findByUserId(userId);
+  public List<Task> getFilteredTasks(SearchCriteria searchCriteria) {
+    TaskSpecification spec = new TaskSpecification(searchCriteria);
+    return taskRepo.findAll(spec);
   }
 
   @Override
@@ -136,7 +139,6 @@ public class TaskServiceImpl implements TaskService {
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     LocalDate date = LocalDate.parse(stringDate, formatter);
-
 
     Task task = new Task();
     task.setHeader(header);

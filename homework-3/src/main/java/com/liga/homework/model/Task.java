@@ -3,6 +3,7 @@ package com.liga.homework.model;
 import com.liga.homework.enums.StatusOfTask;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -41,7 +42,7 @@ public class Task {
   @Column(name="Description")
   private String description;
 
-  @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+  @ManyToOne(cascade = CascadeType.MERGE,fetch = FetchType.LAZY,targetEntity = User.class)
   @JoinColumn(name="user_id",referencedColumnName = "Id")
   private User user;
 
@@ -55,10 +56,12 @@ public class Task {
   @OneToMany(mappedBy="task",targetEntity = Comment.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   List<Comment> commentList;
 
+
   @Override
   public String toString() {
     String formattedDate = this.getDate().format(DateTimeFormatter
             .ofPattern("dd.MM.yyyy"));
-    return getId() + "," + getHeader() + "," + getDescription() + "," + user.getId()+ "," + formattedDate + "," + getStatus();
+    return getId() + "," + getHeader() + "," + getDescription() + "," + user.getName()+ "," + formattedDate + "," + getStatus() + "\n";
+
   }
 }
