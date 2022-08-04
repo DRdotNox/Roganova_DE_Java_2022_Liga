@@ -4,6 +4,7 @@ import com.liga.homework.model.User;
 import com.liga.homework.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -23,12 +24,14 @@ public class UserController {
   }
 
   @GetMapping("/all")
+  @PreAuthorize("hasRole('ADMIN')")
   @ResponseStatus(HttpStatus.OK)
   public List<User> getAllUsers(){
     return userService.getAllUsers();
   }
 
   @DeleteMapping("/{id}")
+  @PreAuthorize("hasRole('ADMIN')")
   @ResponseStatus(HttpStatus.OK)
   public void deleteById(@PathVariable("id") Long id){
     userService.deleteById(id);
@@ -41,6 +44,7 @@ public class UserController {
   }
 
   @DeleteMapping("/all")
+  @PreAuthorize("hasRole('ADMIN')")
   @ResponseStatus(HttpStatus.OK)
   public void deleteAllTasks(){
     userService.deleteAll();

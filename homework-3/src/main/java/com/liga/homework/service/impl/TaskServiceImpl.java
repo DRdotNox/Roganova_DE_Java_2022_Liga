@@ -77,14 +77,12 @@ public class TaskServiceImpl implements TaskService {
       task = Task.builder()
               .header("Нет заголовка")
               .description("Нет описания")
-              .userId(-1L)
               .date(LocalDate.now())
               .build();
     }
     else{
       if(task.getHeader() == null) task.setHeader("Нет заголовка");
       if(task.getDescription() == null) task.setDescription("Нет описания");
-      if(task.getUserId() == null) task.setUserId(-1L);
       if(task.getDate() == null) task.setDate(LocalDate.now());
     }
     System.out.println("task = " + task);

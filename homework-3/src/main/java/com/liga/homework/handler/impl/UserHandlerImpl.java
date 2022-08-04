@@ -1,5 +1,6 @@
 package com.liga.homework.handler.impl;
 
+import com.liga.homework.enums.UserRole;
 import com.liga.homework.handler.UserHandler;
 import com.liga.homework.model.User;
 import com.liga.homework.service.UserService;
@@ -49,7 +50,7 @@ public class UserHandlerImpl implements UserHandler {
   @Override
   public String add(String [] params) {
     String name = Arrays.stream(params).collect(Collectors.joining(" "));
-    userService.save(User.builder().name(name).build());
+    userService.save(User.builder().name(name).role(UserRole.ROLE_USER).build());
     return "Успех";
   }
 }

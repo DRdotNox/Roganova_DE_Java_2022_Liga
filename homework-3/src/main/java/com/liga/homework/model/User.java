@@ -13,7 +13,7 @@ import javax.persistence.Table;
 import java.util.Set;
 import javax.persistence.*;
 
-import com.liga.homework.enums.Role;
+import com.liga.homework.enums.UserRole;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -57,8 +57,9 @@ public class User {
   Set<Project> projects;
 
   @NotNull
+  @Enumerated(EnumType.STRING)
   @Column(name="role")
-  Role role;
+  UserRole role;
 
   @Override
   public String toString() {

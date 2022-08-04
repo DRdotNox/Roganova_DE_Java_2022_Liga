@@ -8,6 +8,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -41,6 +42,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Transactional
+  @PreAuthorize("hasRole('ADMIN')")
   @Override
   public void deleteById(Long id) {
     userRepo.deleteById(id);

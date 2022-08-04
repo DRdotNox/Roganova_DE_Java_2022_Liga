@@ -1,10 +1,7 @@
 package com.liga.homework.model;
 
-import com.liga.homework.enums.Role;
+import com.liga.homework.enums.UserRole;
 import lombok.*;
-import org.springframework.stereotype.Indexed;
-
-import javax.persistence.*;
 
 @Builder
 @Getter
@@ -19,11 +16,11 @@ public class UserSecurityDTO {
 
     private String password;
 
-    private Role role;
+    private UserRole userRole;
 
     @Override
     public String toString() {
-            return getEmail() + "\n" + getRole()  + "\n";
+            return getEmail() + "\n" + getUserRole()  + "\n";
         }
 
     }

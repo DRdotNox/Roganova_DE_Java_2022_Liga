@@ -1,6 +1,5 @@
 package com.liga.homework.service.impl;
 
-import com.liga.homework.enums.Role;
 import com.liga.homework.model.Project;
 import com.liga.homework.model.User;
 import com.liga.homework.repo.ProjectRepo;

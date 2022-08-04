@@ -1,6 +1,6 @@
 package com.liga.homework.service.impl;
 
-import com.liga.homework.enums.Role;
+import com.liga.homework.enums.UserRole;
 import com.liga.homework.enums.StatusOfTask;
 import com.liga.homework.model.Task;
 import com.liga.homework.model.User;
@@ -42,7 +42,7 @@ public class FileServiceImpl implements FileService {
       while ((line = br.readLine()) != null) {
         String[] values = line.split(",");
         userRepo.save(new User(Long.parseLong(values[0].trim()),values[1].trim(),values[2].trim(),values[3].trim(),
-                null,null, Role.ADMIN));
+                null,null, UserRole.ROLE_ADMIN));
       }
     } catch (IOException e) {
       e.printStackTrace();
@@ -58,10 +58,10 @@ public class FileServiceImpl implements FileService {
       while ((line = br.readLine()) != null) {
         String[] values = line.replaceAll("\"","").split(",");
         StatusOfTask status = StatusOfTask.NEW;
-        User user = User.builder().id(Long.parseLong(values[3].trim())).build();
+        User user = User.builder().id(Long.parseLong(values[3].trim())).role(UserRole.ROLE_USER).build();
         if (values.length == 6)  status = StatusOfTask.valueOf(values [5]);
         Task task = new Task(Long.parseLong(values[0].trim()), values[1].trim(), values[2].trim(),
-            user, LocalDate.parse(values[4].trim(), formatter), status);
+            user, LocalDate.parse(values[4].trim(), formatter), status,null);
         taskRepo.save(task);
       }
     } catch (IOException e) {
@@ -80,7 +80,7 @@ public class FileServiceImpl implements FileService {
     HttpHeaders headers = new HttpHeaders();
     headers.add("Content-Type", "text/plain; charset=utf-8");
 
-    String result = Files.readString(Path.of("help.txt"), StandardCharsets.UTF_8);
+    String result = Files.readString(Path.of("homework-3/help.txt"), StandardCharsets.UTF_8);
 
     return new ResponseEntity <>(result, headers, HttpStatus.OK);
 

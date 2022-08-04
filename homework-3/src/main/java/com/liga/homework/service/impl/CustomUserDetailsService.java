@@ -25,10 +25,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException(email);
         }
-
-
         return new CustomUserPrincipal(DTOMapper.convertToUserSecurityDTO(user));
-
 
     }
 }

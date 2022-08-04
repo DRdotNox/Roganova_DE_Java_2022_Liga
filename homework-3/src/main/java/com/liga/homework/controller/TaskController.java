@@ -68,7 +68,7 @@ public class TaskController {
 
   @PutMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
-  public void editTask(@PathVariable("id") Long id, @RequestParam("params") String params){
+  public void editTask(@PathVariable("id") Long id, @RequestParam("params") String params) throws Exception {
 
 //    //Вариант 1
 //    Command execCommand = commandFactory.create(CommandType.EDIT+ " "+ DataType.TASK
