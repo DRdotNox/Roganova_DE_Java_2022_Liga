@@ -30,11 +30,11 @@ public class TaskController {
     taskService.save(task);
   }
 
-  @GetMapping("/all/{id}")
-  @ResponseStatus(HttpStatus.OK)
-  public List<Task> getAllTasksFromUser(@PathVariable("id") Long userId){
-    return taskService.getTasksFromUser(userId);
-  }
+//  @GetMapping("/all/{id}")
+//  @ResponseStatus(HttpStatus.OK)
+//  public List<Task> getAllTasksFromUser(@PathVariable("id") Long userId){
+//    return taskService.getTasksFromUser(userId);
+//  }
 
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)

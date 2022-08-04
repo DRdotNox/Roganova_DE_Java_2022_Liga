@@ -85,7 +85,7 @@ public class MainServiceImpl <T> implements MainService {
   }
 
   @Override
-  public void edit(String type, String id, String field, String newValue) {
+  public void edit(String type, String id, String field, String newValue) throws Exception {
     if(type.equals("user")) userService.edit(Long.parseLong(id),newValue);
     else taskService.edit(Long.parseLong(id),field,newValue);
   }
