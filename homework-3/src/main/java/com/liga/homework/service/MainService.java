@@ -7,7 +7,7 @@ import com.opencsv.exceptions.CsvException;
 import org.springframework.http.ResponseEntity;
 
 public interface MainService <T> {
-  void edit(String type, String id, String field, String newValue);
+  void edit(String type, String id, String field, String newValue) throws Exception;
 
   void openTestDB();
 

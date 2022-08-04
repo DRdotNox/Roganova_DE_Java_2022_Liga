@@ -2,6 +2,7 @@ package com.liga.homework.service.impl;
 
 import com.liga.homework.SearchCriteria;
 import com.liga.homework.enums.StatusOfTask;
+import com.liga.homework.model.Comment;
 import com.liga.homework.model.Task;
 import com.liga.homework.model.User;
 import com.liga.homework.repo.TaskRepo;
@@ -33,7 +34,7 @@ public class TaskServiceImpl implements TaskService {
   }
 
   @Override
-  public void edit(long id, String field, String newValue) {
+  public void edit(long id, String field, String newValue) throws Exception {
 
     Task task = taskRepo.findById(id).orElseThrow(EntityNotFoundException::new);
 
@@ -61,7 +62,29 @@ public class TaskServiceImpl implements TaskService {
   }
 
   @Override
+  public List<Comment> getAllComments(Long taskId) {
+    System.out.println("taskId = " + taskId);
+    return this.getOneTaskById(taskId).getCommentList();
+  }
+
+  @Override
   public void save(Task task) {
+    if(task == null){
+      task = Task.builder()
+              .header("Нет заголовка")
+              .description("Нет описания")
+              .userId(-1L)
+              .date(LocalDate.now())
+              .build();
+    }
+    else{
+      if(task.getHeader() == null) task.setHeader("Нет заголовка");
+      if(task.getDescription() == null) task.setDescription("Нет описания");
+      if(task.getUserId() == null) task.setUserId(-1L);
+      if(task.getDate() == null) task.setDate(LocalDate.now());
+    }
+    System.out.println("task = " + task);
+    task.setStatus(StatusOfTask.NEW);
     taskRepo.save(task);
   }
 
@@ -78,7 +101,6 @@ public class TaskServiceImpl implements TaskService {
 
   @Override
   public void create(String[] params){
-
     String header;
     String desc ;
     Long userId = 0L;
@@ -107,12 +129,12 @@ public class TaskServiceImpl implements TaskService {
     else if (dateIndex!=-1) desc = createStringParam(params,descIndex+1,dateIndex);
     else desc = createStringParam(params,descIndex+1, params.length);
 
-    if(userIndex == -1) userId =(long)-1;
+    if(userIndex == -1) userId =null;
     else if (dateIndex!=-1) userId = Long.parseLong(createStringParam(params,userIndex+1, dateIndex));
     else userId = Long.parseLong(createStringParam(params,userIndex+1, params.length));
 
     if(dateIndex == -1) stringDate = LocalDate.now().format(DateTimeFormatter
-        .ofPattern("dd.MM.yyyy"));
+            .ofPattern("dd.MM.yyyy"));
     else stringDate =createStringParam(params,dateIndex+1, params.length);
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
