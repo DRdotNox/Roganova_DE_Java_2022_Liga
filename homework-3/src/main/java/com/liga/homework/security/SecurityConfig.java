@@ -35,15 +35,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-//                .antMatchers(HttpMethod.GET,"users/v1/").permitAll()
-//                .antMatchers(HttpMethod.GET,"tasks/v1/").permitAll()
-//                .antMatchers("/cli?command=test").permitAll()
                 .anyRequest()
                 .authenticated().and().formLogin()
-             //   .loginPage("/login").failureUrl("/login?error=true")
+//                 .loginPage("/login").failureUrl("/login?error=true")
                 .defaultSuccessUrl("/login")
-//                .usernameParameter("email")
-//                .passwordParameter("password")
                 .and().logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/").and().exceptionHandling();
